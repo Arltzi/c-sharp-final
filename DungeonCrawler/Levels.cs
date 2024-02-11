@@ -8,8 +8,18 @@ namespace DungeonCrawler
 {
     internal class Levels
     {
-        public static char[] level1 = { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
+        static char[] level1 = { '#', '#', '#', '#', '#', '#', '#', '#', '#', '#',
                                         '#', ' ',' ',' ',' ',' ',' ',' ',' ','#',
                                          '#','#','#','#','#','#','#','#','#','#',};
+        public static Entity[] level;
+        public static void BuildLevels () 
+        {
+            level = new Entity[level1.Length];
+
+            for (int x = 0; x < level.Length; x++) 
+            {
+                level[x].sprite = level1[x];
+            }
+        }
     }
 }

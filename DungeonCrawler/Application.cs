@@ -120,6 +120,7 @@ namespace DungeonCrawler
             m_Paused = true;
 
             p = new Player(windowX / 2, windowY / 2);
+            p.uid = ID.Player;
 
             mainMenu = new MainMenu();
 
@@ -147,9 +148,9 @@ namespace DungeonCrawler
                 }
                 else
                 {
-                    //Update();
+                    Update();
                     //TestRender();
-                    Renderer.WriteToBuffer(Levels.level1);
+                    Renderer.WriteToBuffer(Levels.level);
 
                 }
 
@@ -175,48 +176,6 @@ namespace DungeonCrawler
             }
 
             p.Move(inputMap);
-
-        }
-
-        private void TestRender()
-        {
-
-            Console.Write(roomTop);
-
-            for (int i = 0; i < windowY; i++)
-            {
-
-                Console.Write(roomSide);
-
-                for (int j = 0; j < windowX; j++)
-                {
-
-
-                    if (i == p.y && j == p.x)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write(p.sprite);
-                        Console.ResetColor();
-                    }
-                    else
-                    {
-                        Console.Write(' ');
-                    }
-
-                }
-
-                Console.WriteLine(roomSide);
-
-
-            }
-
-            Console.WriteLine(roomBottom);
-
-            Console.WriteLine($"\nPlayer X: {p.x}, Y: {p.y}");
-            Console.WriteLine($"Tick time: {m_TickTime}");
-            Console.WriteLine($"Tick count:{tickCount}");
-            Console.WriteLine($"Input: {inputMap}");
-
 
         }
 

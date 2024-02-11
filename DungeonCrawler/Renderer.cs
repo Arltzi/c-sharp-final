@@ -28,7 +28,7 @@ namespace DungeonCrawler
 
 
         [STAThread] // Indicates I want to run this as singlethreaded?
-        public static void WriteToBuffer(char[] input)
+        public static void WriteToBuffer(Entity[] input)
         {
             // Get the console buffer
             SafeFileHandle h = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);

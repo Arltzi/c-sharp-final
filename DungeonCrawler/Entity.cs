@@ -11,7 +11,7 @@ namespace DungeonCrawler
         public int x, y;
 
         public char sprite = '@';
-
+        public ID uid = ID.Tile;
 
         public Entity()
         {
