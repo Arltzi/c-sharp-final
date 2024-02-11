@@ -6,19 +6,11 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    internal class Entity
+    internal class BuildMap
     {
-        public int x, y;
-
-        public char sprite = '@';
-        public ID uid = ID.Tile;
-
-        public Entity()
+        public static void Buildmap() 
         {
-
-
+            
         }
-
-
     }
 }
