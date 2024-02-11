@@ -147,8 +147,10 @@ namespace DungeonCrawler
                 }
                 else
                 {
-                    Update();
-                    TestRender();
+                    //Update();
+                    //TestRender();
+                    Renderer.WriteToBuffer(Levels.level1);
+
                 }
 
                 inputMap = InputMap.NONE;
