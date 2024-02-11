@@ -8,6 +8,12 @@ namespace DungeonCrawler
 {
     internal class Renderer
     {
+        // Declatations
+        static short windowXSize = 10;
+        static short windowYSize = 3;
+
+
+        // Imports the createfile method
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern SafeFileHandle CreateFile(
                     string fileName,
@@ -18,6 +24,7 @@ namespace DungeonCrawler
                     [MarshalAs(UnmanagedType.U4)] int flags,
                     IntPtr template);
 
+        // Import the write console output method
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool WriteConsoleOutputW(
           SafeFileHandle hConsoleOutput,
@@ -35,28 +42,27 @@ namespace DungeonCrawler
 
             if (!h.IsInvalid)
             {
-                CharInfo[] buffer = new CharInfo[10 * 3];
-                SmallRect rect = new SmallRect() { Left = 0, Top = 0, Right = 10, Bottom = 3 };
+                // the buffer vars
+                CharInfo[] buffer = new CharInfo[windowXSize * windowYSize];
+                SmallRect rect = new SmallRect() { Left = 0, Top = 0, Right = windowXSize, Bottom = windowYSize };
 
 
             for (int i = 0; i < buffer.Length; ++i)
             {
                 buffer[i].Attributes = 1;
-                buffer[i].Char.AsciiChar = (byte) input[i];
+                buffer[i].Char.AsciiChar = (byte) input[i].sprite;
             }
 
             bool b = WriteConsoleOutputW
             (
                 h,
                 buffer,
-                new Coord() { X = 10, Y = 3 },
+                new Coord() { X = windowXSize, Y = windowYSize },
                 new Coord() { X = 0, Y = 0 },
                 ref rect
             );
                 
             }
-
-            Console.ReadKey();
         }
     }
 

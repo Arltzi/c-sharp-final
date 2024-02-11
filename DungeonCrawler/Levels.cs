@@ -18,6 +18,7 @@ namespace DungeonCrawler
 
             for (int x = 0; x < level.Length; x++) 
             {
+                level[x] = new Entity();
                 level[x].sprite = level1[x];
             }
         }
