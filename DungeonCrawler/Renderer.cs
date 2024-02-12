@@ -6,19 +6,10 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-
-    internal class Entity
+    internal class Renderer
     {
 
-        public int x, y;
 
-        public char sprite = '@';
-
-        public Entity()
-        {
-
-
-        }
 
 
     }

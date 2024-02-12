@@ -7,10 +7,20 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
+    enum Direction
+    {
+        UP = 1,
+        DOWN = 2,
+        RIGHT = 3,
+        LEFT = 4
+    }
+
     internal class Pawn : Entity
     {
 
-        protected InputMap movementDir;
+
+
+        protected Direction direction;
 
         public Pawn()
         {
@@ -20,26 +30,35 @@ namespace DungeonCrawler
         protected bool CollisionCheck()
         {
 
-            switch (movementDir)
+            switch (direction)
             {
-                case InputMap.UP:
-                    if ((y - 1) == -1)
+                case Direction.UP:
+                    if ((y - 1) == -1) // Top bounds check
+                        return false;
+                    else if (Application.CurrentMap.Data[x, y - 1] == (int)TileTypes.WALL) // Wall tile collision check
                         return false;
                     break;
-                case InputMap.DOWN:
-                    if ((y + 1) == Application.windowY && (x < 20 || x >= 36))
+                case Direction.DOWN:
+                    if ((y + 1) == Application.mapY && (x < 20 || x >= 36)) // Bottom bounds check (allowing player to go down in middle for doorway) (temp)
+                        return false;
+                    else if (Application.CurrentMap.Data[x, y + 1] == (int)TileTypes.WALL) // Wall tile collision check
                         return false;
                     break;
-                case InputMap.RIGHT:
-                    if ((x + 1) == Application.windowX)
+                case Direction.RIGHT:
+                    if ((x + 1) == Application.mapX) // Right bounds check
+                        return false;
+                    else if (Application.CurrentMap.Data[x + 1, y] == (int)TileTypes.WALL) // Wall tile collision check
                         return false;
                     break;
-                case InputMap.LEFT:
-                    if ((x - 1) == -1)
+                case Direction.LEFT:
+                    if ((x - 1) == -1) // Left bounds check
+                        return false;
+                    else if (Application.CurrentMap.Data[x - 1, y] == (int)TileTypes.WALL) // Wall tile collision check
                         return false;
                     break;
 
             }
+
 
             return true;
 

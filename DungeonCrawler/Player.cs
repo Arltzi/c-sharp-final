@@ -17,33 +17,62 @@ namespace DungeonCrawler
             sprite = '^';
         }
 
-        public void Move(InputMap dir)
+
+        public bool Move(InputMap input)
         {
-            movementDir = dir;
-            switch (movementDir)
+            direction = (Direction)input;
+            switch (direction)
             {
-                case InputMap.UP:
-                    if (CollisionCheck() == true)
-                        y--;
+                case Direction.UP:
+
                     sprite = '^';
-                    break;
-                case InputMap.DOWN:
+
                     if (CollisionCheck() == true)
-                        y++;
+                    {
+                        y--;
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.DOWN:
+
                     sprite = 'v';
-                    break;
-                case InputMap.RIGHT:
+
                     if (CollisionCheck() == true)
-                        x++;
+                    {
+                        y++;
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.RIGHT:
+
                     sprite = '>';
-                    break;
-                case InputMap.LEFT:
+
                     if (CollisionCheck() == true)
-                        x--;
+                    {
+                        x++;
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.LEFT:
+
                     sprite = '<';
+
+                    if (CollisionCheck() == true)
+                    {
+                        x--;
+                        return true;
+                    }
                     break;
 
             }
+
+            return false;
 
         }
     }
