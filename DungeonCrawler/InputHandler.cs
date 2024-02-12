@@ -4,11 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// TODO Implement class
 namespace DungeonCrawler
 {
-    internal class Renderer
+    internal class InputHandler
     {
+
+        public InputHandler()
+        {
+
+
+        }
+
+        private void HandleInput()
+        {
+
+
+
+        }
+
 
     }
 }
