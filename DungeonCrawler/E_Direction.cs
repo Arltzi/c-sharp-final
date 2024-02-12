@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    internal class BuildMap
+    public enum Direction
     {
-        public static void Buildmap() 
-        {
-            
-        }
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 }
