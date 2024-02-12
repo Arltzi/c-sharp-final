@@ -70,7 +70,7 @@ namespace DungeonCrawler
 
         static private Map currentMap = new Map();
 
-        private bool DEBUG = true;
+        static public bool DEBUG = true;
 
         private static char[] TileSheet = { ' ', '#' };
 
@@ -94,6 +94,7 @@ namespace DungeonCrawler
 
         static public void Pause()
         {
+            Console.Clear();
             m_Paused = true;
             m_TickTime = 250;
         }
@@ -136,8 +137,10 @@ namespace DungeonCrawler
 
         private bool Init()
         {
+
+
             // Map succesfully loaded
-            if (currentMap.Load("map_02") == true)
+            if (currentMap.Load("map_01") == true)
             {
                 player.x = currentMap.PlayerX;
                 player.y = currentMap.PlayerY;
@@ -165,7 +168,6 @@ namespace DungeonCrawler
                     Update();
                     Render();
                 }
-
 
 
                 System.Threading.Thread.Sleep(m_TickTime);
@@ -201,6 +203,7 @@ namespace DungeonCrawler
 
         private void Render()
         {
+            Console.ResetColor();
 
             Console.Write(roomTop);
 

@@ -19,7 +19,6 @@ namespace DungeonCrawler
         private string name = "No name";
 
         
-
         public string Name
         {
             get { return name; }
@@ -86,7 +85,7 @@ namespace DungeonCrawler
                     for (int j = 0; j < mapSizeY; j++)
                     {
 
-                        char currentChar = mapString[i + (j * 56)];
+                        char currentChar = mapString[i + (j * mapSizeX)];
                         data[i, j] = (Tile)int.Parse(currentChar.ToString());
 
                         // Assigning players class it's X & Y if found

@@ -32,7 +32,6 @@ namespace DungeonCrawler
                         y--;
                         return true;
                     }
-
                     break;
 
                 case Direction.DOWN:
