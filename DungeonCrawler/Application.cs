@@ -19,12 +19,12 @@ enum InputMap
 
 }
 
-enum TileTypes
+enum Tile
 {
     EMPTY = 0,
     WALL = 1,
-    PLAYER = 2
-
+    PLAYER = 2,
+    ENEMY = 3
 }
 
 namespace DungeonCrawler
@@ -70,6 +70,9 @@ namespace DungeonCrawler
 
         static private Map currentMap = new Map();
 
+        private bool DEBUG = true;
+
+        private static char[] TileSheet = { ' ', '#' };
 
         public static Map CurrentMap
         {
@@ -86,7 +89,7 @@ namespace DungeonCrawler
         static public void UnPause()
         {
             m_Paused = false;
-            m_TickTime = 200;
+            m_TickTime = 50;
         }
 
         static public void Pause()
@@ -116,7 +119,6 @@ namespace DungeonCrawler
             currentMap = new Map();
 
         }
-
 
         public void Run()
         {
@@ -165,7 +167,6 @@ namespace DungeonCrawler
                 }
 
 
-                inputMap = InputMap.NONE;
 
                 System.Threading.Thread.Sleep(m_TickTime);
 
@@ -176,7 +177,6 @@ namespace DungeonCrawler
             }
 
         }
-
 
         private void Update()
         {
@@ -194,6 +194,7 @@ namespace DungeonCrawler
                     currentMap.UpdatePlayerLocation(player);
                 }
 
+                inputMap = InputMap.NONE;
             }
 
         }
@@ -211,18 +212,18 @@ namespace DungeonCrawler
                 for (int j = 0; j < mapX; j++)
                 {
 
-                    TileTypes currentTile = (TileTypes)(currentMap.Data[j, i]);
+                    Tile currentTile = (currentMap.Data[j, i]);
 
                     switch (currentTile)
                     {
 
-                        case TileTypes.EMPTY:
+                        case Tile.EMPTY:
                             Console.Write(' '); 
                             break;
-                        case TileTypes.WALL:
+                        case Tile.WALL:
                             Console.Write('#');
                             break;
-                        case TileTypes.PLAYER:
+                        case Tile.PLAYER:
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.Write(player.sprite);
                             Console.ResetColor();
@@ -230,23 +231,24 @@ namespace DungeonCrawler
 
                     }
                     
-
                 }
 
                 Console.WriteLine(roomSide);
-
             }
 
             Console.WriteLine(roomBottom);
 
-            Console.WriteLine($"\nPlayer X: {player.x}, Y: {player.y}    ");
-            Console.WriteLine($"Current map: {currentMap.Name}");
-            Console.WriteLine($"Tick time: {m_TickTime}");
-            Console.WriteLine($"Tick count:{tickCount}");
-            Console.WriteLine($"Input: {inputMap}   ");
+            if (DEBUG)
+            {
+                Console.WriteLine($"\nPlayer X: {player.x}, Y: {player.y}    ");
+                Console.WriteLine($"Current map: {currentMap.Name}");
+                Console.WriteLine($"Tick time: {m_TickTime}");
+                Console.WriteLine($"Tick count:{tickCount}");
+                Console.WriteLine($"Input: {inputMap}   ");
+            }
 
         }
-
+        
 
         // Input function handled on independant thread
         private void HandleInput()

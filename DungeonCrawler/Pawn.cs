@@ -35,25 +35,25 @@ namespace DungeonCrawler
                 case Direction.UP:
                     if ((y - 1) == -1) // Top bounds check
                         return false;
-                    else if (Application.CurrentMap.Data[x, y - 1] == (int)TileTypes.WALL) // Wall tile collision check
+                    else if (Application.CurrentMap.Data[x, y - 1] == Tile.WALL) // Wall tile collision check
                         return false;
                     break;
                 case Direction.DOWN:
                     if ((y + 1) == Application.mapY && (x < 20 || x >= 36)) // Bottom bounds check (allowing player to go down in middle for doorway) (temp)
                         return false;
-                    else if (Application.CurrentMap.Data[x, y + 1] == (int)TileTypes.WALL) // Wall tile collision check
+                    else if (Application.CurrentMap.Data[x, y + 1] == Tile.WALL) // Wall tile collision check
                         return false;
                     break;
                 case Direction.RIGHT:
                     if ((x + 1) == Application.mapX) // Right bounds check
                         return false;
-                    else if (Application.CurrentMap.Data[x + 1, y] == (int)TileTypes.WALL) // Wall tile collision check
+                    else if (Application.CurrentMap.Data[x + 1, y] == Tile.WALL) // Wall tile collision check
                         return false;
                     break;
                 case Direction.LEFT:
                     if ((x - 1) == -1) // Left bounds check
                         return false;
-                    else if (Application.CurrentMap.Data[x - 1, y] == (int)TileTypes.WALL) // Wall tile collision check
+                    else if (Application.CurrentMap.Data[x - 1, y] == Tile.WALL) // Wall tile collision check
                         return false;
                     break;
 

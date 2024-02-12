@@ -12,11 +12,13 @@ namespace DungeonCrawler
         public const int mapSizeX = 56;
         public const int mapSizeY = 20;
 
-        private int[,] data;
+        private Tile[,] data;
 
         private int enemyCount = 0;
 
         private string name = "No name";
+
+        
 
         public string Name
         {
@@ -24,7 +26,7 @@ namespace DungeonCrawler
             private set { name = value; }
         }
 
-        public int[,] Data
+        public Tile[,] Data
         {
             get { return data; }
             private set { data = value; }
@@ -47,7 +49,7 @@ namespace DungeonCrawler
 
         public Map()
         {
-            data = new int[mapSizeX, mapSizeY];
+            data = new Tile[mapSizeX, mapSizeY];
         }
         
         public void UpdatePlayerLocation(Player p)
@@ -57,8 +59,8 @@ namespace DungeonCrawler
             int oldY = playerY;
 
             // Update current
-            data[p.x, p.y] = 2;
-            data[oldX, oldY] = 0;
+            data[p.x, p.y] = Tile.PLAYER;
+            data[oldX, oldY] = Tile.EMPTY;
 
             // Set old location to empty
             playerX = p.x;
@@ -85,13 +87,17 @@ namespace DungeonCrawler
                     {
 
                         char currentChar = mapString[i + (j * 56)];
-                        data[i, j] = int.Parse(currentChar.ToString());
+                        data[i, j] = (Tile)int.Parse(currentChar.ToString());
 
                         // Assigning players class it's X & Y if found
-                        if (data[i, j] == (int)TileTypes.PLAYER)
+                        if (data[i, j] == Tile.PLAYER)
                         {
-                            PlayerX = i;
+                            playerX = i;
                             playerY = j;
+                        }
+                        else if (data[i,j] == Tile.ENEMY)
+                        {
+
                         }
 
                     }
@@ -99,7 +105,6 @@ namespace DungeonCrawler
                 }
 
                 return true;
-
 
             }
             catch (Exception e)
