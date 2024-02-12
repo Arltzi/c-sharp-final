@@ -112,6 +112,7 @@ namespace DungeonCrawler
 
             player = new Player(mapX / 2, mapY / 2);
 
+
             mainMenu = new MainMenu();
 
             inputMap = new InputMap();
@@ -167,6 +168,7 @@ namespace DungeonCrawler
                 {
                     Update();
                     Render();
+
                 }
 
 
@@ -251,8 +253,6 @@ namespace DungeonCrawler
             }
 
         }
-        
-
         // Input function handled on independant thread
         private void HandleInput()
         {

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// TODO Implement class
 namespace DungeonCrawler
 {
-    internal class Renderer
-    {
 
+    public enum ID 
+    {
+        Player,
+        Tile
     }
+    
 }
