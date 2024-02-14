@@ -19,35 +19,10 @@ enum InputMap
 
 }
 
-enum Tile
-{
-    EMPTY = 0,
-    WALL = 1,
-    PLAYER = 2,
-    ENEMY = 3
-}
-
 namespace DungeonCrawler
 {
     internal class Application
     {
-
-        private string roomTop =    "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
-                                    "▓▓                                                                ▓▓\n" +
-                                    "▓ ▓                                                              ▓ ▓\n" +
-                                    "▓  ▓                                                            ▓  ▓\n" +
-                                    "▓   ▓                                                          ▓   ▓\n" +
-                                    "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n";
-
-        private string roomSide =   "▓    ▓";
-
-        private string roomBottom = "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n" +
-                                    "▓   ▓                    ▓                ▓                    ▓   ▓\n" +
-                                    "▓  ▓                    ▓▓                ▓▓                    ▓  ▓\n" +
-                                    "▓ ▓                    ▓ ▓                ▓ ▓                    ▓ ▓\n" +
-                                    "▓▓                    ▓  ▓                ▓  ▓                    ▓▓\n" +
-                                    "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓";
-
 
         static private bool m_isRunning;
 
@@ -62,17 +37,25 @@ namespace DungeonCrawler
 
         static private int m_TickTime;
         
-        Player player;
+        static public Player player;
 
         MainMenu mainMenu;
 
-        private int tickCount = 0;
+        static public int tickCount = 0;
 
         static private Map currentMap = new Map();
 
         static public bool DEBUG = true;
 
-        private static char[] TileSheet = { ' ', '#' };
+        static public EntityManager entityManager = new EntityManager();
+
+        private Renderer m_Renderer = new Renderer();
+
+        public static int TickTime
+        {
+            get { return m_TickTime; }
+            private set { m_TickTime = value; } 
+        }
 
         public static Map CurrentMap
         {
@@ -89,7 +72,7 @@ namespace DungeonCrawler
         static public void UnPause()
         {
             m_Paused = false;
-            m_TickTime = 50;
+            m_TickTime = 1;
         }
 
         static public void Pause()
@@ -110,8 +93,7 @@ namespace DungeonCrawler
             m_isRunning = true;
             m_Paused = true;
 
-            player = new Player(mapX / 2, mapY / 2);
-
+            player = new Player();
 
             mainMenu = new MainMenu();
 
@@ -139,15 +121,10 @@ namespace DungeonCrawler
         private bool Init()
         {
 
-
             // Map succesfully loaded
             if (currentMap.Load("map_01") == true)
             {
-                player.x = currentMap.PlayerX;
-                player.y = currentMap.PlayerY;
-
                 return true;
-
             }
 
             return false;
@@ -167,10 +144,9 @@ namespace DungeonCrawler
                 else
                 {
                     Update();
-                    Render();
+                    m_Renderer.Render();
 
                 }
-
 
                 System.Threading.Thread.Sleep(m_TickTime);
 
@@ -195,7 +171,7 @@ namespace DungeonCrawler
 
                 if (player.Move(inputMap) == true) // If move was successful, update location in map
                 {
-                    currentMap.UpdatePlayerLocation(player);
+                    //currentMap.UpdatePlayerLocation(player);
                 }
 
                 inputMap = InputMap.NONE;
@@ -203,56 +179,7 @@ namespace DungeonCrawler
 
         }
 
-        private void Render()
-        {
-            Console.ResetColor();
 
-            Console.Write(roomTop);
-
-            for (int i = 0; i < mapY; i++)
-            {
-
-                Console.Write(roomSide);
-
-                for (int j = 0; j < mapX; j++)
-                {
-
-                    Tile currentTile = (currentMap.Data[j, i]);
-
-                    switch (currentTile)
-                    {
-
-                        case Tile.EMPTY:
-                            Console.Write(' '); 
-                            break;
-                        case Tile.WALL:
-                            Console.Write('#');
-                            break;
-                        case Tile.PLAYER:
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.Write(player.sprite);
-                            Console.ResetColor();
-                            break;
-
-                    }
-                    
-                }
-
-                Console.WriteLine(roomSide);
-            }
-
-            Console.WriteLine(roomBottom);
-
-            if (DEBUG)
-            {
-                Console.WriteLine($"\nPlayer X: {player.x}, Y: {player.y}    ");
-                Console.WriteLine($"Current map: {currentMap.Name}");
-                Console.WriteLine($"Tick time: {m_TickTime}");
-                Console.WriteLine($"Tick count:{tickCount}");
-                Console.WriteLine($"Input: {inputMap}   ");
-            }
-
-        }
         // Input function handled on independant thread
         private void HandleInput()
         {
