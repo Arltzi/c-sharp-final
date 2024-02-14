@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-
-    public enum ID 
+    internal class Enemy : Entity
     {
-        Player,
-        Tile
+
+        public Enemy()
+        {
+            sprite = '^';
+            spriteColour = ConsoleColor.Red;
+        }
+
     }
-    
 }

@@ -9,71 +9,12 @@ namespace DungeonCrawler
     internal class Player : Pawn
     {
 
-        public Player(int x, int y)
+        public Player()
         {
-            this.x = x;
-            this.y = y;
-
             sprite = '^';
+            spriteColour = ConsoleColor.Green;
         }
 
-
-        public bool Move(InputMap input)
-        {
-            direction = (Direction)input;
-            switch (direction)
-            {
-                case Direction.UP:
-
-                    sprite = '^';
-
-                    if (CollisionCheck() == true)
-                    {
-                        y--;
-                        return true;
-                    }
-                    break;
-
-                case Direction.DOWN:
-
-                    sprite = 'v';
-
-                    if (CollisionCheck() == true)
-                    {
-                        y++;
-                        return true;
-                    }
-
-                    break;
-
-                case Direction.RIGHT:
-
-                    sprite = '>';
-
-                    if (CollisionCheck() == true)
-                    {
-                        x++;
-                        return true;
-                    }
-
-                    break;
-
-                case Direction.LEFT:
-
-                    sprite = '<';
-
-                    if (CollisionCheck() == true)
-                    {
-                        x--;
-                        return true;
-                    }
-                    break;
-
-            }
-
-            return false;
-
-        }
     }
 }
 
