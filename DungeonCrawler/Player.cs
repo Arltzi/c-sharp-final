@@ -13,8 +13,8 @@ namespace DungeonCrawler
         {
             sprite = '^';
             spriteColour = ConsoleColor.Green;
+            entityType = Map.TileType.PLAYER;
         }
 
     }
 }
-

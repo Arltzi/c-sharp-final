@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace DungeonCrawler
     internal class Map
     {
         // Types used for loading
-        enum TileType 
+        public enum TileType
         {
             EMPTY = 0,
             WALL = 1,
@@ -23,10 +25,10 @@ namespace DungeonCrawler
         public const int mapSizeX = 56;
         public const int mapSizeY = 20;
 
-        private Tile[,] data;
+        public Tile[,] data {get; private set;}
 
         private string name = "No name";
-        
+
         public string Name
         {
             get { return name; }
@@ -71,14 +73,11 @@ namespace DungeonCrawler
                         // Assigning tiles occupant
                         if (currentType == TileType.PLAYER)
                         {
-                            currentTile.SetOccupant(Application.player);
-                            Application.player.x = i;
-                            Application.player.y = j;
+                            EntityManager.CreateEntity(TileType.PLAYER, new Vector2(i,j));
                         }
                         else if (currentType == TileType.ENEMY)
                         {
-                            Enemy enemy = Application.entityManager.CreateEnemy();
-                            currentTile.SetOccupant(enemy);
+                            EntityManager.CreateEntity(TileType.ENEMY, new Vector2(i,j));
                         }
                         else if (currentType == TileType.WALL)
                         {
@@ -98,9 +97,6 @@ namespace DungeonCrawler
                 Console.WriteLine(e.ToString());
                 return false;
             }
-
         }
-
-
     }
 }

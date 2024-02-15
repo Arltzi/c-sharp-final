@@ -9,8 +9,7 @@ namespace DungeonCrawler
 {
     internal class Wall : Entity
     {
-
-        public Wall()
+        public Wall() : base(Map.TileType.WALL)
         {
             sprite = '#';
             spriteColour = ConsoleColor.Yellow;

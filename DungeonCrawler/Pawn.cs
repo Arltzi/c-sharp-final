@@ -22,9 +22,8 @@ namespace DungeonCrawler
 
         protected Direction direction;
 
-        public Pawn()
+        public Pawn() : base(Map.TileType.EMPTY)
         {
-
 
         }
 
