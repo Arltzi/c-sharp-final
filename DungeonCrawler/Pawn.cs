@@ -1,4 +1,5 @@
 ﻿using DungeonCrawler;
+using DungeonCrawler.Attacks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,14 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    enum Direction
-    {
-        UP = 1,
-        DOWN = 2,
-        RIGHT = 3,
-        LEFT = 4
-    }
-
     internal class Pawn : Entity
     {
 
         public int x, y;
+        public Attack attack;
 
         protected int health;
+
 
         public int Health
         {
@@ -33,6 +28,7 @@ namespace DungeonCrawler
         public Pawn()
         {
             health = 10;
+
         }
 
         public bool Move(InputMap input)
@@ -40,10 +36,11 @@ namespace DungeonCrawler
             int oldX = x;
             int oldY = y;
 
-            direction = (Direction)input;
+            direction = input;
+
             switch (direction)
             {
-                case Direction.UP:
+                case InputMap.UP:
 
                     sprite = '^';
 
@@ -56,7 +53,7 @@ namespace DungeonCrawler
                     }
                     break;
 
-                case Direction.DOWN:
+                case InputMap.DOWN:
 
                     sprite = 'v';
 
@@ -70,7 +67,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case Direction.RIGHT:
+                case InputMap.RIGHT:
 
                     sprite = '>';
 
@@ -84,7 +81,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case Direction.LEFT:
+                case InputMap.LEFT:
 
                     sprite = '<';
 
@@ -108,7 +105,7 @@ namespace DungeonCrawler
 
             switch (direction)
             {
-                case Direction.UP:
+                case InputMap.UP:
                     if ((y - 1) == -1) // Top bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x, y - 1].Occupant != null) // Wall tile collision check
@@ -116,17 +113,18 @@ namespace DungeonCrawler
                     break;
                 case Direction.DOWN:
                     if ((y + 1) == Application.mapY) // Bottom bounds check (allowing player to go down in middle for doorway) (temp)
+
                         return false;
                     else if (Application.CurrentMap.Data[x, y + 1].Occupant != null) // Wall tile collision check
                         return false;
-                    break;
-                case Direction.RIGHT:
+                    break;  
+                case InputMap.RIGHT:
                     if ((x + 1) == Application.mapX) // Right bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x + 1, y].Occupant != null) // Wall tile collision check
                         return false;
                     break;
-                case Direction.LEFT:
+                case InputMap.LEFT:
                     if ((x - 1) == -1) // Left bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x - 1, y].Occupant != null) // Wall tile collision check
