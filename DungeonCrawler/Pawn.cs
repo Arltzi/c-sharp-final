@@ -101,7 +101,8 @@ namespace DungeonCrawler
                     else if (Application.CurrentMap.Data[x, y - 1].Occupant != null) // Wall tile collision check
                         return false;
                     break;
-                case Direction.DOWN:
+
+                case InputMap.DOWN:
                     if ((y + 1) == Application.mapY) // Bottom bounds check (allowing player to go down in middle for doorway) (temp)
 
                         return false;
