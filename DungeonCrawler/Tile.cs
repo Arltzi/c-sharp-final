@@ -9,7 +9,7 @@ namespace DungeonCrawler
     internal struct Tile
     {
 
-        public ConsoleColor effectColour;
+        public ConsoleColor effectColour = ConsoleColor.Black;
         private Entity? occupant = null;
 
         public Entity? Occupant

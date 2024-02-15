@@ -44,6 +44,7 @@ namespace DungeonCrawler
             {
 
                 Console.Write(roomSide);
+                bool thereWasEffectColor = false;
 
                 for (int j = 0; j < Map.mapSizeX; j++)
                 {
@@ -54,6 +55,12 @@ namespace DungeonCrawler
                     //This line of code slows execution down by like 100%
                     //Console.BackgroundColor = currentTile.effectColour;
 
+                    if (currentTile.effectColour != ConsoleColor.Black) 
+                    {
+                        Console.BackgroundColor = currentTile.effectColour;
+                        thereWasEffectColor = true;
+                    }
+
                     if(currentTile.Occupant == null)
                     {
                         Console.Write(' ');
@@ -62,6 +69,12 @@ namespace DungeonCrawler
                     {
                         Console.ForegroundColor = currentTile.Occupant.SpriteColour;
                         Console.Write(currentTile.Occupant.sprite);
+                    }
+
+                    if (thereWasEffectColor) 
+                    {
+                        thereWasEffectColor = false;
+                        Console.BackgroundColor = ConsoleColor.Black;
                     }
 
                 }
