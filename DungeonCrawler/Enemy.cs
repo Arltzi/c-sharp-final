@@ -13,6 +13,7 @@ namespace DungeonCrawler
         {
             sprite = '^';
             spriteColour = ConsoleColor.Red;
+            health = 5;
         }
 
     }

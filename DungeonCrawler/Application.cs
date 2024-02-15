@@ -16,8 +16,8 @@ enum InputMap
     RIGHT = 3,
     LEFT = 4,
     SHOOT = 5,
-    PAUSE = 6
-
+    PAUSE = 6,
+    DEVBTN = 7
 }
 
 // Enum for different menus
@@ -25,6 +25,8 @@ enum MenuType
 {
     MAIN = 0,
     ABOUT = 1,
+    LVLCOMPLETE = 2,
+    MERCHANT = 3
 }
 
 namespace DungeonCrawler
@@ -65,9 +67,11 @@ namespace DungeonCrawler
         // Currently selected menu class
         static private Menu m_currentMenu;
         // List of all menus in game
-        static private Menu[] MenuList = new Menu[2];
+        static private Menu[] MenuList = new Menu[4];
 
         private AppContext context = AppContext.MENU;
+
+        static private int levelNum = 0;
 
         static public bool DEBUG = true;
 
@@ -142,17 +146,26 @@ namespace DungeonCrawler
             Console.Clear();
         }
 
+        static public void GoNextLevel()
+        {
+            levelNum++;
+            currentMap.Load("map_" + levelNum);
+            m_Paused = false;
+        }
+
         private bool Init()
         {
             // Initializing menu list
             MenuList[0] = new MainMenu();
             MenuList[1] = new AboutMenu();
+            MenuList[2] = new LevelCompleteMenu();
+            MenuList[3] = new MerchantMenu();
 
             // Swapping to main menu for start of game
             SwapMenu(MenuType.MAIN);
 
             // Map succesfully loaded
-            if (currentMap.Load("map_00") == true)
+            if (currentMap.Load("map_" + levelNum.ToString()) == true)
             {
                 return true;
             }
@@ -170,13 +183,8 @@ namespace DungeonCrawler
             {
                 started = true;
 
-                // TODO: Tidy up and implement "render contexts" for more cleanly implemented system for swapping between gameplay / menu
-                if (m_Paused)
-                    context = AppContext.MENU;
-                else
-                    context = AppContext.GAME;
-
                 Update();
+
                 Render();
 
                 System.Threading.Thread.Sleep(m_TickTime);
@@ -201,18 +209,25 @@ namespace DungeonCrawler
 
             {
 
+
                 if (inputMap == InputMap.PAUSE)
                 {
                     Pause();
                 }
-
-                if (inputMap >= InputMap.UP || inputMap <= InputMap.LEFT) // Check if input is a move input
+                else if (inputMap >= InputMap.UP && inputMap <= InputMap.LEFT) // Check if input is a move input
                 {
-
                     player.Move(inputMap);
 
-                    inputMap = InputMap.NONE;
                 }
+                else if(inputMap == InputMap.DEVBTN)
+                {
+                    Pause();
+                    SwapMenu(MenuType.LVLCOMPLETE);
+                    //currentLevel++;
+                    //currentMap.Load("map_" + currentLevel);
+                }
+
+                inputMap = InputMap.NONE;
 
             }
             else if (context == AppContext.MENU) // Tick handling for MENU
@@ -235,6 +250,11 @@ namespace DungeonCrawler
                 inputMap = InputMap.NONE;
 
             }
+
+            if (m_Paused)
+                context = AppContext.MENU;
+            else
+                context = AppContext.GAME;
 
         }
 
@@ -283,6 +303,9 @@ namespace DungeonCrawler
                             break;
                         case ConsoleKey.Escape:
                             inputMap = InputMap.PAUSE;
+                            break;
+                        case ConsoleKey.E:
+                            inputMap = InputMap.DEVBTN;
                             break;
                         case ConsoleKey.X:
                             m_isRunning = false;
