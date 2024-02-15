@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
+    
     public enum Direction
     {
         UP,
@@ -13,4 +14,5 @@ namespace DungeonCrawler
         LEFT,
         RIGHT
     }
+    
 }
