@@ -9,7 +9,6 @@ namespace DungeonCrawler
 
     internal class Entity
     {
-
         public char sprite = '@';
         protected ConsoleColor spriteColour = ConsoleColor.White;
 
@@ -19,7 +18,7 @@ namespace DungeonCrawler
             private set { spriteColour = value; }
         }
 
-         
+
         public Entity()
         {
 

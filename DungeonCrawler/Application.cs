@@ -53,7 +53,7 @@ namespace DungeonCrawler
         private Thread inputThread;
 
         static private int m_TickTime;
-        
+
         static public Player player;
 
         static public int tickCount = 0;
@@ -79,7 +79,7 @@ namespace DungeonCrawler
         public static int TickTime
         {
             get { return m_TickTime; }
-            private set { m_TickTime = value; } 
+            private set { m_TickTime = value; }
         }
 
         public static Map CurrentMap
