@@ -11,7 +11,7 @@ namespace DungeonCrawler
     {
         public MainMenu()
         {
-            logo = "       __                                 \r\n" +
+            text = "       __                                 \r\n" +
                 "  ____/ /_  ______  ____ ____  ____  ____ \r\n" +
                 " / __  / / / / __ \\/ __ `/ _ \\/ __ \\/ __ \\\r\n" +
                 "/ /_/ / /_/ / / / / /_/ /  __/ /_/ / / / /\r\n" +
@@ -33,6 +33,8 @@ namespace DungeonCrawler
             {
                 case 1:
                     Application.UnPause();
+                    Console.CursorVisible = false;
+                    Console.Clear();
                     break;
                 case 2:
                     Application.SwapMenu(MenuType.ABOUT);

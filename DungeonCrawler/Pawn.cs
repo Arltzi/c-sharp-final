@@ -20,12 +20,19 @@ namespace DungeonCrawler
 
         public int x, y;
 
+        protected int health;
+
+        public int Health
+        {
+            get { return health; }
+            private set { health = value; }
+        }
+
         protected Direction direction;
 
         public Pawn()
         {
-
-
+            health = 10;
         }
 
         public bool Move(InputMap input)
