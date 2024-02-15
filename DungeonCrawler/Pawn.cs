@@ -16,7 +16,6 @@ namespace DungeonCrawler
 
         protected int health;
 
-
         public int Health
         {
             get { return health; }
@@ -36,11 +35,11 @@ namespace DungeonCrawler
             int oldX = x;
             int oldY = y;
 
-            direction = input;
+            direction = (Direction)input;
 
             switch (direction)
             {
-                case InputMap.UP:
+                case Direction.UP:
 
                     sprite = '^';
 
@@ -53,7 +52,7 @@ namespace DungeonCrawler
                     }
                     break;
 
-                case InputMap.DOWN:
+                case Direction.DOWN:
 
                     sprite = 'v';
 
@@ -67,7 +66,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case InputMap.RIGHT:
+                case Direction.RIGHT:
 
                     sprite = '>';
 
@@ -81,7 +80,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case InputMap.LEFT:
+                case Direction.LEFT:
 
                     sprite = '<';
 
@@ -171,7 +170,7 @@ namespace DungeonCrawler
 
             switch (direction)
             {
-                case InputMap.UP:
+                case Direction.UP:
                     if ((y - 1) == -1) // Top bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x, y - 1].Occupant != null) // Wall tile collision check
@@ -184,13 +183,13 @@ namespace DungeonCrawler
                     else if (Application.CurrentMap.Data[x, y + 1].Occupant != null) // Wall tile collision check
                         return false;
                     break;  
-                case InputMap.RIGHT:
+                case Direction.RIGHT:
                     if ((x + 1) == Application.mapX) // Right bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x + 1, y].Occupant != null) // Wall tile collision check
                         return false;
                     break;
-                case InputMap.LEFT:
+                case Direction.LEFT:
                     if ((x - 1) == -1) // Left bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x - 1, y].Occupant != null) // Wall tile collision check

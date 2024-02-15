@@ -200,15 +200,11 @@ namespace DungeonCrawler
         private void Update()
         {
             
-            if (context == AppContext.GAME) // Tick handling for GAME
-              
             // Checks attack sto clean
             AttackAutoClear.staticRef.CheckAttacksToClean();
 
-            if (inputMap == InputMap.PAUSE)
-
+            if (context == AppContext.GAME) // Tick handling for game
             {
-
 
                 if (inputMap == InputMap.PAUSE)
                 {
