@@ -18,6 +18,9 @@ namespace DungeonCrawler.Attacks
         // The attributes for attack
         protected Tile[] mAffectedTiles;
         protected ConsoleColor mColor;
+        protected int timer = 2;
+        protected int maxTimer = 2;
+        protected bool affectedtilesNeedClearing = false;
 
         // The constructors
         public Attack() 

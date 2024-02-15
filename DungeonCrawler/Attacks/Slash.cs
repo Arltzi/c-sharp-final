@@ -19,7 +19,7 @@ namespace DungeonCrawler.Attacks
         // Calls the parent constructor to assign the default color
         public Slash() : base() 
         {
-        
+            mAffectedTiles = new Tile[9];
         }
 
         // Calls the parent constructor to assign a custom color
@@ -56,13 +56,8 @@ namespace DungeonCrawler.Attacks
         }
 
         // Gets the referances to the arc and stores then into mAffectedTiles
-        void DrawAttack (int x, int y, int verticleDir, int horizontalDir) 
+        void DrawAttack (int x, int y, int horizontalDir, int verticleDir) 
         {
-            mAffectedTiles = new Tile[9];
-
-            // local delcarations
-            int localX = 1;
-            int localY = -1;
 
             /*
              * TODO see if this works ( something doesn't quite seem right )
@@ -79,44 +74,46 @@ namespace DungeonCrawler.Attacks
             */
 
             // Draws the attack
-            
-            DrawLine(x+localX, y + localY, verticleDir, horizontalDir, 1);
-            DrawLine(x + (localX * 2 *  horizontalDir), y + (localY * 2 * verticleDir), verticleDir, horizontalDir, 2);
-            DrawLine(x+localX, y + localY, verticleDir, horizontalDir, 3);
+            DrawLine(x, y, verticleDir, horizontalDir, 3, 1);
+            DrawLine(x + (horizontalDir * 2), y + (verticleDir * 2), verticleDir, horizontalDir, 2, 2);
+            DrawLine(x  + -(horizontalDir * 2), y + -(verticleDir * 2), verticleDir, horizontalDir, 2, 3);
             
 
             
         }
 
-        // x and y are position params, whereas renditionNum is to avoid overwriting information
-        void DrawLine(int x, int y, int xDir, int yDir, int renditionNum)
+        // x and y are position params, whereas renditionNum is to avoid overwriting information  ( start offset should be default at one )
+        void DrawLine(int x, int y, int xDir, int yDir, int startOffset, int renditionNum)
         {
             // Declarations
             int notFirstRun = 0;
 
             // iterates for those specific indexes
-            int xIter = 0;
-            int yIter = 0;
+            int xIter = xDir * startOffset;
+            int yIter = yDir * startOffset;
 
             // checks to see if this was the first run
-            if (renditionNum > 0) 
+            if (renditionNum > 0)
             {
-                notFirstRun = 1; 
+                notFirstRun = 1;
             }
-            
-            // Draws a line of length 3
-            for (int iter = 0; iter >= 2; iter++)
-            {
-                mAffectedTiles[ ( iter + notFirstRun ) * renditionNum ] = Application.CurrentMap.Data[x + xIter, y + yIter];
 
-                // checks which iter to iterate
-                if (xDir == 0) 
+            // Draws a line of length 3
+            for (int iter = 0; iter < 2; iter++)
+            {
+                // ensures we do not go out of bounds of map array
+                if (Application.CurrentMap.Data.GetLength(0)-1 < x + xIter || Application.CurrentMap.Data.GetLength(1)-1 < y + yIter || x + xIter < 0 || y + yIter < 0)
                 {
-                    yIter += yDir;
-                    continue;
+                    break;
                 }
 
-                xIter = xDir;
+                // Draw out the affected stuff
+                mAffectedTiles[iter] = Application.CurrentMap.Data[x + xIter, y + yIter];
+                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
+
+                // Iterates along proper direction
+                yIter += yDir;
+                xIter += xDir;
             }
 
         }

@@ -9,10 +9,11 @@ namespace DungeonCrawler
     
     public enum Direction
     {
+        NONE,
         UP,
         DOWN,
-        LEFT,
-        RIGHT
+        RIGHT,
+        LEFT
     }
     
 }

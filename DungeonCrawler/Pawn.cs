@@ -28,7 +28,11 @@ namespace DungeonCrawler
             int oldY = y;
 
             direction = input;
-            //attack.Action(x, y, (Direction) input);
+            if ((int)direction != 0)
+            {
+                attack.Action(x, y, (Direction)((int)input));
+            }
+
             switch (direction)
             {
                 case InputMap.UP:

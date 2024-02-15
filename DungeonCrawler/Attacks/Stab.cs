@@ -16,6 +16,11 @@ namespace DungeonCrawler.Attacks
 {
     internal class Stab : Attack
     {
+        public Stab() : base() 
+        {
+            // assigns in accordance to tile usage
+            mAffectedTiles = new Tile[9];
+        }
         public override void Action(int x, int y, Direction dir)
         {
             // Gets the direction to attack
@@ -48,13 +53,35 @@ namespace DungeonCrawler.Attacks
             int yIter = 0;
 
             // draws attack
-            for (int iter = 0; iter >= 3; iter++) 
+            for (int iter = 0; iter < 3; iter++) 
             {
-                mAffectedTiles[iter] = Application.CurrentMap.Data[x, y];
+                mAffectedTiles[iter] = Application.CurrentMap.Data[x + xIter, y + yIter];
+                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
 
+                // iterates across the proper acess in proper direction
                 xIter += horizontalDir;
                 yIter += verticleDir;
             }
+
+            // Prepare ntuff that needs clearing to be cleared
+            affectedtilesNeedClearing = true;
+        }
+
+        public void CheckIfClearAffectedTiles () 
+        {
+            // returns if the timer has ended
+            if (timer >= maxTimer)
+            {
+                // Checks if temp stuff needs clearing out
+                if (affectedtilesNeedClearing) 
+                {
+                    // Clears out vars for later use
+                    affectedtilesNeedClearing = true;
+                    mAffectedTiles = new Tile[9];
+                }
+                return;
+            } 
+            timer++;
         }
     }
 }
