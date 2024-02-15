@@ -10,10 +10,16 @@ namespace DungeonCrawler
     internal class Entity
     {
 
-        public int x, y;
-
         public char sprite = '@';
+        protected ConsoleColor spriteColour = ConsoleColor.White;
 
+        public ConsoleColor SpriteColour
+        {
+            get { return spriteColour; }
+            private set { spriteColour = value; }
+        }
+
+         
         public Entity()
         {
 
