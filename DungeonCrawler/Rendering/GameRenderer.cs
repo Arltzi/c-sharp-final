@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 
-namespace DungeonCrawler
+namespace DungeonCrawler.Rendering
 {
     internal class GameRenderer
     {

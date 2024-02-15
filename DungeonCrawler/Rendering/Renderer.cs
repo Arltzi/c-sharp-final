@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 // TODO Implement class
-namespace DungeonCrawler
+namespace DungeonCrawler.Rendering
 {
     internal class Renderer
     {
@@ -56,13 +56,13 @@ namespace DungeonCrawler
                     //This line of code slows execution down by like 100%
                     //Console.BackgroundColor = currentTile.effectColour;
 
-                    if (currentTile.effectColour != ConsoleColor.Black) 
+                    if (currentTile.effectColour != ConsoleColor.Black)
                     {
                         Console.BackgroundColor = currentTile.effectColour;
                         thereWasEffectColor = true;
                     }
 
-                    if(currentTile.Occupant == null)
+                    if (currentTile.Occupant == null)
                     {
                         Console.Write(' ');
                     }
@@ -72,7 +72,7 @@ namespace DungeonCrawler
                         Console.Write(currentTile.Occupant.sprite);
                     }
 
-                    if (thereWasEffectColor) 
+                    if (thereWasEffectColor)
                     {
                         thereWasEffectColor = false;
                         Console.BackgroundColor = ConsoleColor.Black;
