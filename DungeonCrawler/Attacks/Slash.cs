@@ -17,39 +17,40 @@ namespace DungeonCrawler.Attacks
     internal class Slash : Attack
     {
         // Calls the parent constructor to assign the default color
-        public Slash() : base() 
+        public Slash(Pawn parent) : base(parent) 
         {
-            mAffectedTiles = new Tile[9];
+            mAffectedTiles = new int[9,9];
         }
 
         // Calls the parent constructor to assign a custom color
-        public Slash(ConsoleColor myColor) : base(myColor) 
+        public Slash(Pawn parent, ConsoleColor myColor) : base(parent, myColor) 
         {
         
         }
 
         
-        public override void Action(int x, int y, Direction dir)
+        public override void Action( Direction dir )
         {
-            // Application.CurrentMap;
+            // Adds the attack to a list for later cleaning
+            AttackAutoClear.staticRef.attack = this;
 
             // Gets the direction to attack
             switch (dir) 
             {
                 case (Direction.UP):
-                    DrawAttack(x, y, -1, 0);
+                    DrawAttack(parent.x, parent.y, -1, 0);
                     break;
 
                 case (Direction.DOWN):
-                    DrawAttack(x, y, 1, 0);
+                    DrawAttack(parent.x, parent.y, 1, 0);
                     break;
 
                 case (Direction.LEFT):
-                    DrawAttack(x, y, 0, -1);
+                    DrawAttack(parent.x, parent.y, 0, -1);
                     break;
 
                 case (Direction.RIGHT):
-                    DrawAttack(x, y, 0, 1);
+                    DrawAttack(parent.x, parent.y, 0, 1);
                     break;
             }
 
@@ -58,25 +59,15 @@ namespace DungeonCrawler.Attacks
         // Gets the referances to the arc and stores then into mAffectedTiles
         void DrawAttack (int x, int y, int horizontalDir, int verticleDir) 
         {
+            // Sets vars for later cleaning
+            timer = 0;
+            affectedtilesNeedClearing = true;
 
-            /*
-             * TODO see if this works ( something doesn't quite seem right )
-            if (verticleDir == 0) 
-            {
-                localX = horizontalDir;
-            }
-
-            else 
-            {
-                localX = verticleDir;
-
-            }
-            */
 
             // Draws the attack
-            DrawLine(x, y, verticleDir, horizontalDir, 3, 1);
-            DrawLine(x + (horizontalDir * 2), y + (verticleDir * 2), verticleDir, horizontalDir, 2, 2);
-            DrawLine(x  + -(horizontalDir * 2), y + -(verticleDir * 2), verticleDir, horizontalDir, 2, 3);
+            DrawLine(x, y, verticleDir, horizontalDir, 3, 0);
+            DrawLine(x + (horizontalDir * 2), y + (verticleDir * 2), verticleDir, horizontalDir, 2, 1);
+            DrawLine(x  + -(horizontalDir * 2), y + -(verticleDir * 2), verticleDir, horizontalDir, 2, 2);
             
 
             
@@ -92,11 +83,6 @@ namespace DungeonCrawler.Attacks
             int xIter = xDir * startOffset;
             int yIter = yDir * startOffset;
 
-            // checks to see if this was the first run
-            if (renditionNum > 0)
-            {
-                notFirstRun = 1;
-            }
 
             // Draws a line of length 3
             for (int iter = 0; iter < 2; iter++)
@@ -108,7 +94,8 @@ namespace DungeonCrawler.Attacks
                 }
 
                 // Draw out the affected stuff
-                mAffectedTiles[iter] = Application.CurrentMap.Data[x + xIter, y + yIter];
+                mAffectedTiles[iter + (renditionNum * 2), 0] = x + xIter;
+                mAffectedTiles[iter + (renditionNum * 2), 1] = y + yIter;
                 Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
 
                 // Iterates along proper direction

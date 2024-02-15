@@ -16,46 +16,73 @@ namespace DungeonCrawler.Attacks
 {
     internal class Stab : Attack
     {
-        public Stab() : base() 
+        // shorthand constructor for enemies
+        public Stab(Pawn parent) : base(parent)
         {
             // assigns in accordance to tile usage
-            mAffectedTiles = new Tile[9];
+            mAffectedTiles = new int[9,9];
         }
-        public override void Action(int x, int y, Direction dir)
+
+
+
+        public Stab(Pawn parent, ConsoleColor color) : base(parent, color)
         {
+            // assigns in accordance to tile usage
+            mAffectedTiles = new int[9,9];
+        }
+
+
+
+        public override void Action(Direction dir)
+        {
+            // Sets vars for later cleaning
+            timer = 0;
+            affectedtilesNeedClearing = true;
+
+            // Adds the attack to a list for later cleaning
+            AttackAutoClear.staticRef.attack = this;
+
             // Gets the direction to attack
             switch (dir)
             {
                 case (Direction.UP):
-                    DrawAttack(x, y, -1, 0);
+                    DrawAttack(parent.x, parent.y, -1, 0);
                     break;
 
                 case (Direction.DOWN):
-                    DrawAttack(x, y, 1, 0);
+                    DrawAttack(parent.x, parent.y, 1, 0);
                     break;
 
                 case (Direction.LEFT):
-                    DrawAttack(x, y, 0, -1);
+                    DrawAttack(parent.x, parent.y, 0, -1);
                     break;
 
                 case (Direction.RIGHT):
-                    DrawAttack(x, y, 0, 1);
+                    DrawAttack(parent.x, parent.y, 0, 1);
                     break;
             }
 
             // TODO implement color in attack
         }
 
-        void DrawAttack(int x, int y, int verticleDir, int horizontalDir) 
+        void DrawAttack(int x, int y, int verticleDir, int horizontalDir)
         {
             // declatations
             int xIter = 0;
             int yIter = 0;
 
             // draws attack
-            for (int iter = 0; iter < 3; iter++) 
+            for (int iter = 0; iter < 3; iter++)
             {
-                mAffectedTiles[iter] = Application.CurrentMap.Data[x + xIter, y + yIter];
+                // ensures we do not go out of bounds of map array
+                if (Application.CurrentMap.Data.GetLength(0) - 1 < x + xIter || Application.CurrentMap.Data.GetLength(1) - 1 < y + yIter || x + xIter < 0 || y + yIter < 0)
+                {
+                    break;
+                }
+
+                // Assigns values to store
+                mAffectedTiles[iter,0] = x + xIter;
+                mAffectedTiles[iter, 1] = y + yIter;
                 Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
 
                 // iterates across the proper acess in proper direction
@@ -65,23 +92,6 @@ namespace DungeonCrawler.Attacks
 
             // Prepare ntuff that needs clearing to be cleared
             affectedtilesNeedClearing = true;
-        }
-
-        public void CheckIfClearAffectedTiles () 
-        {
-            // returns if the timer has ended
-            if (timer >= maxTimer)
-            {
-                // Checks if temp stuff needs clearing out
-                if (affectedtilesNeedClearing) 
-                {
-                    // Clears out vars for later use
-                    affectedtilesNeedClearing = true;
-                    mAffectedTiles = new Tile[9];
-                }
-                return;
-            } 
-            timer++;
         }
     }
 }

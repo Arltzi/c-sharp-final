@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using DungeonCrawler.Attacks;
 
 enum InputMap
 {
@@ -135,6 +136,7 @@ namespace DungeonCrawler
             while (m_isRunning)
             {
                 started = true;
+
                 // TODO: Tidy up and implement "render contexts" for more cleanly implemented system for swapping between gameplay / menu
                 if (m_Paused)
                 {
@@ -160,6 +162,8 @@ namespace DungeonCrawler
 
         private void Update()
         {
+            // Checks attack sto clean
+            AttackAutoClear.staticRef.CheckAttacksToClean();
 
             if (inputMap == InputMap.PAUSE)
             {

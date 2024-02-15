@@ -12,13 +12,12 @@ namespace DungeonCrawler
     {
 
         public int x, y;
-        public Attack attack = new Slash();
+        public Attack attack;
 
         protected InputMap direction;
 
         public Pawn()
         {
-
 
         }
 
@@ -28,10 +27,6 @@ namespace DungeonCrawler
             int oldY = y;
 
             direction = input;
-            if ((int)direction != 0)
-            {
-                attack.Action(x, y, (Direction)((int)input));
-            }
 
             switch (direction)
             {
