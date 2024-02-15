@@ -34,22 +34,23 @@ namespace DungeonCrawler
 
         }
 
-        public void Render()
+        // Draw map
+        public void Draw(Map map)
         {
             Console.ResetColor();
 
             Console.Write(roomTop);
 
-            for (int i = 0; i < Map.mapSizeY; i++)
+            for (int i = 0; i < Map.mapHeight; i++)
             {
+                Console.ResetColor();
 
                 Console.Write(roomSide);
 
-                for (int j = 0; j < Map.mapSizeX; j++)
+                for (int j = 0; j < Map.mapWidth; j++)
                 {
-                    Console.ResetColor();
 
-                    Tile currentTile = Application.CurrentMap.Data[j, i];
+                    Tile currentTile = map.Data[j, i];
 
                     //This line of code slows execution down by like 100%
                     //Console.BackgroundColor = currentTile.effectColour;
@@ -66,10 +67,13 @@ namespace DungeonCrawler
 
                 }
 
+                Console.ResetColor();
+
                 Console.WriteLine(roomSide);
             }
 
             Console.WriteLine(roomBottom);
+
             if (Application.DEBUG)
             {
                 Console.WriteLine($"\nPlayer X: {Application.player.x}, Y: {Application.player.y}    ");
@@ -78,6 +82,37 @@ namespace DungeonCrawler
                 Console.WriteLine($"Tick count:{Application.tickCount}    ");
                 //Console.WriteLine($"Input: {inputMap}   ");
             }
+
+        }
+
+        // Draw menu
+        public void Draw(Menu menu)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(menu.logo);
+
+            Console.ResetColor();
+
+            for (int i = 0; i < menu.buttons.Length; i++)
+            {
+                if (i == menu.selectedButton - 1)
+                {
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write(">>>");
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine(menu.buttons[i]);
+                }
+                else
+                {
+                    Console.WriteLine("   " + menu.buttons[i]);
+                }
+
+                Console.ResetColor();
+            }
+
+            // debug
+            //Console.WriteLine($"{menu.selectedButton}");
 
         }
 

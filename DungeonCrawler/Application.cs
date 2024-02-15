@@ -19,10 +19,24 @@ enum InputMap
 
 }
 
+// Enum for different menus
+enum MenuType
+{
+    MAIN = 0,
+    ABOUT = 1,
+}
+
 namespace DungeonCrawler
 {
     internal class Application
     {
+        // Application context for rendering / input
+        // Either rendering / polling for gameplay or menu
+        enum AppContext
+        {
+            GAME = 0,
+            MENU = 1
+        }
 
         static private bool m_isRunning;
 
@@ -39,17 +53,23 @@ namespace DungeonCrawler
         
         static public Player player;
 
-        MainMenu mainMenu;
-
         static public int tickCount = 0;
 
         static private Map currentMap = new Map();
 
-        static public bool DEBUG = true;
-
         static public EntityManager entityManager = new EntityManager();
 
         private Renderer m_Renderer = new Renderer();
+
+        // Currently selected menu class
+        static private Menu m_currentMenu;
+        // List of all menus in game
+        static private Menu[] MenuList = new Menu[2];
+
+        private AppContext context = AppContext.MENU;
+
+        static public bool DEBUG = true;
+
 
         public static int TickTime
         {
@@ -63,6 +83,11 @@ namespace DungeonCrawler
             private set { currentMap = value; }
         }
 
+        // Swapping selected menu based off enum
+        static public void SwapMenu(MenuType newMenu)
+        {
+            m_currentMenu = MenuList[(int)newMenu];
+        }
 
         static public void CloseApp()
         {
@@ -79,7 +104,7 @@ namespace DungeonCrawler
         {
             Console.Clear();
             m_Paused = true;
-            m_TickTime = 250;
+            m_TickTime = 100;
         }
 
         public Application()
@@ -88,14 +113,12 @@ namespace DungeonCrawler
 
             inputThread = new Thread(HandleInput);
 
-            m_TickTime = 250;
+            m_TickTime = 100;
 
             m_isRunning = true;
             m_Paused = true;
 
             player = new Player();
-
-            mainMenu = new MainMenu();
 
             inputMap = new InputMap();
             inputMap = InputMap.NONE;
@@ -120,11 +143,21 @@ namespace DungeonCrawler
 
         private bool Init()
         {
+            // Initializing menu list
+            MenuList[0] = new MainMenu();
+            MenuList[1] = new AboutMenu();
+
+            // Swapping to main menu for start of game
+            SwapMenu(MenuType.MAIN);
 
             // Map succesfully loaded
-            if (currentMap.Load("map_01") == true)
+            if (currentMap.Load("map_00") == true)
             {
                 return true;
+            }
+            else
+            {
+                Console.WriteLine("Failed to load map!");
             }
 
             return false;
@@ -135,18 +168,14 @@ namespace DungeonCrawler
 
             while (m_isRunning)
             {
-                // TODO: Tidy up and implement "render contexts" for more cleanly implemented system for swapping between gameplay / menu
-                if (m_Paused)
-                {
-                    mainMenu.Update(inputMap);
-                    mainMenu.Render();
-                }
-                else
-                {
-                    Update();
-                    m_Renderer.Render();
 
-                }
+                if (m_Paused)
+                    context = AppContext.MENU;
+                else
+                    context = AppContext.GAME;
+
+                Update();
+                Render();
 
                 System.Threading.Thread.Sleep(m_TickTime);
 
@@ -160,25 +189,61 @@ namespace DungeonCrawler
 
         private void Update()
         {
-
-            if (inputMap == InputMap.PAUSE)
-            {
-                Pause();
-            }
-
-            if (inputMap >= InputMap.UP || inputMap <= InputMap.LEFT) // Check if input is a move input
+            
+            if (context == AppContext.GAME) // Tick handling for GAME
             {
 
-                if (player.Move(inputMap) == true) // If move was successful, update location in map
+                if (inputMap == InputMap.PAUSE)
                 {
-                    //currentMap.UpdatePlayerLocation(player);
+                    Pause();
                 }
 
+                if (inputMap >= InputMap.UP || inputMap <= InputMap.LEFT) // Check if input is a move input
+                {
+
+                    player.Move(inputMap);
+
+                    inputMap = InputMap.NONE;
+                }
+
+            }
+            else if (context == AppContext.MENU) // Tick handling for MENU
+            {
+
+                switch (inputMap)
+                {
+                    case InputMap.UP:
+                        m_currentMenu.SelectUp();
+                        break;
+                    case InputMap.DOWN:
+                        m_currentMenu.SelectDown();
+                        break;
+                    case InputMap.SHOOT:
+                        m_currentMenu.PressButton();
+                        break;
+                }
+
+                //mainMenu.Update(inputMap);
                 inputMap = InputMap.NONE;
+
             }
 
         }
 
+
+        private void Render()
+        {
+
+            if (context == AppContext.GAME) // Game rendering
+            {
+                m_Renderer.Draw(CurrentMap);
+            }
+            else if (context == AppContext.MENU) // Menu rendering
+            {
+                m_Renderer.Draw(m_currentMenu);
+            }
+
+        }
 
         // Input function handled on independant thread
         private void HandleInput()

@@ -20,8 +20,8 @@ namespace DungeonCrawler
         // Reused wall instance for all wall tiles
         private Wall wall = new Wall();
 
-        public const int mapSizeX = 56;
-        public const int mapSizeY = 20;
+        public const int mapWidth = 56;
+        public const int mapHeight = 20;
 
         private Tile[,] data;
 
@@ -41,7 +41,7 @@ namespace DungeonCrawler
 
         public Map()
         {
-            data = new Tile[mapSizeX, mapSizeY];
+            data = new Tile[mapWidth, mapHeight];
         }
 
         public bool Load(string name)
@@ -56,16 +56,16 @@ namespace DungeonCrawler
                 // Stripping newlines
                 string mapString = fileContent.Replace(Environment.NewLine, "");
 
-                for (int i = 0; i < mapSizeX; i++)
+                for (int i = 0; i < mapWidth; i++)
                 {
 
-                    for (int j = 0; j < mapSizeY; j++)
+                    for (int j = 0; j < mapHeight; j++)
                     {
-
-                        char currentChar = mapString[i + (j * mapSizeX)];
-
+                        // Grabbing char 
+                        char currentChar = mapString[i + (j * mapWidth)];
+                        // Getting integer value from char, casting it to ENUM
                         TileType currentType = (TileType)int.Parse(currentChar.ToString());
-
+                        // Creating new tile
                         Tile currentTile = new Tile();
 
                         // Assigning tiles occupant
@@ -79,12 +79,15 @@ namespace DungeonCrawler
                         {
                             Enemy enemy = Application.entityManager.CreateEnemy();
                             currentTile.SetOccupant(enemy);
+                            enemy.x = i;
+                            enemy.y = j;
                         }
                         else if (currentType == TileType.WALL)
                         {
                             currentTile.SetOccupant(wall);
                         }
 
+                        // Loading created tile into tile array
                         data[i, j] = currentTile;
                     }
 

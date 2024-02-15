@@ -15,7 +15,6 @@ namespace DungeonCrawler
         {
             entityList.Add(Application.player);
         }
-
         public Enemy CreateEnemy()
         {
             Enemy e = new Enemy();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonCrawler
 {
-    internal class Enemy : Entity
+    internal class Enemy : Pawn
     {
 
         public Enemy()
