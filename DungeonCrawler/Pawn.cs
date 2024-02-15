@@ -96,6 +96,72 @@ namespace DungeonCrawler
 
         }
 
+        public bool Move(Direction direction)
+        {
+            int oldX = x;
+            int oldY = y;
+
+            switch (direction)
+            {
+                case Direction.UP:
+
+                    sprite = '^';
+
+                    if (CollisionCheck() == true)
+                    {
+                        y--;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+                    break;
+
+                case Direction.DOWN:
+
+                    sprite = 'v';
+
+                    if (CollisionCheck() == true)
+                    {
+                        y++;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.RIGHT:
+
+                    sprite = '>';
+
+                    if (CollisionCheck() == true)
+                    {
+                        x++;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.LEFT:
+
+                    sprite = '<';
+
+                    if (CollisionCheck() == true)
+                    {
+                        x--;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+                    break;
+
+            }
+
+            return false;
+
+        }
         protected bool CollisionCheck()
         {
 
