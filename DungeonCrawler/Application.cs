@@ -206,7 +206,7 @@ namespace DungeonCrawler
 
             if (context == AppContext.GAME) // Tick handling for game
             {
-                entityManager.EnemyUpdate();
+                // entityManager.EnemyUpdate();
 
                 // LEVEL CLEAR CHECK
                 if(entityManager.entityList.Count == 0)
