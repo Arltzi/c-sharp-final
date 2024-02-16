@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 
-namespace DungeonCrawler
+namespace DungeonCrawler.Rendering
 {
     internal class GameRenderer
     {
@@ -35,37 +35,55 @@ namespace DungeonCrawler
 
 
         [STAThread] // Indicates I want to run this as singlethreaded?
-        public static void WriteToBuffer(Entity[,] input)
+        public static void WriteToBuffer(RenderTile[,] input)
         {
             // Sets window Sizes
             windowXSize = (short)input.GetLength(0);
             windowYSize = (short)input.GetLength(1);
 
             // converts to 1D array
-            Entity[] usableInput = new Entity[input.GetLength(0) * input.GetLength(1)];
+            RenderTile[] usableInput = new RenderTile[input.GetLength(0) * input.GetLength(1)];
 
-            for (int x = 0; x < input.GetLength(0); x++)
+            for (int y = 0; y < input.GetLength(1); y++)
             {
-                for (int y = 0; x < input.GetLength(1); y++)
+                for (int x = 0; x < input.GetLength(0); x++)
                 {
-                    usableInput[x * y] = input[x, y];
+                    usableInput[ (y * input.GetLength(0)) + x ] = input[x, y];
+
+                    if (usableInput[(y * input.GetLength(0)) + x] == null) 
+                    {
+                        usableInput[(y * input.GetLength(0)) + x] = new RenderTile('&');
+                    }
                 }
             }
 
+
+
+
             // Get the console buffer
             SafeFileHandle h = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
-
+            
             if (!h.IsInvalid)
             {
                 // the buffer vars
-                CharInfo[] buffer = new CharInfo[windowXSize * windowYSize];
+                CharInfo[] buffer = new CharInfo[input.GetLength(0) * input.GetLength(1)];
                 SmallRect rect = new SmallRect() { Left = 0, Top = 0, Right = windowXSize, Bottom = windowYSize };
 
 
-                for (int i = 0; i < buffer.Length; ++i)
+                for (int i = 0; i < buffer.GetLength(0); ++i)
                 {
-                    buffer[i].Attributes = 1;
                     buffer[i].Char.AsciiChar = (byte)usableInput[i].sprite;
+
+                    // decides which color to draw
+                    if (usableInput[i].effectColor == 0)
+                    {
+                        buffer[i].Attributes = usableInput[i].color;
+                    }
+
+                    else 
+                    {
+                        buffer[i].Attributes = usableInput[i].effectColor;
+                    }
                 }
 
                 bool b = WriteConsoleOutputW

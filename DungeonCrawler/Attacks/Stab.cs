@@ -83,7 +83,7 @@ namespace DungeonCrawler.Attacks
                 // Assigns values to store
                 mAffectedTiles[iter,0] = x + xIter;
                 mAffectedTiles[iter, 1] = y + yIter;
-                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
+                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = 15;
 
                 // iterates across the proper acess in proper direction
                 xIter += horizontalDir;
@@ -92,6 +92,8 @@ namespace DungeonCrawler.Attacks
 
             // Prepare ntuff that needs clearing to be cleared
             affectedtilesNeedClearing = true;
+
+            CheckForDamage();
         }
     }
 }

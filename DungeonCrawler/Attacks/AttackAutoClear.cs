@@ -33,8 +33,21 @@ namespace DungeonCrawler.Attacks
             }
         }
 
+        public void CheckAttackOverlap()
+        {
 
-        
+            if (triggeredAttacks.Count == 0)
+            {
+                return;
+            }
+
+            for (int x = 0; x < triggeredAttacks.Count; x++)
+            {
+                triggeredAttacks[x].CheckForDamage();
+            }
+
+        }
+
         // Checks thorugh all activated attacks to see if they should be cleared
         public void CheckAttacksToClean () 
         {
@@ -43,6 +56,8 @@ namespace DungeonCrawler.Attacks
             {
                 return;
             }
+
+
 
             // Checks everything if they should be clears and clears it if it should
             for (int x = 0; x < triggeredAttacks.Count; x++) 

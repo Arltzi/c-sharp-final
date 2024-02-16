@@ -17,7 +17,14 @@ namespace DungeonCrawler
             CurrentState = EntityManager.ProcessState.Inactive;
             sprite = '^';
             spriteColour = ConsoleColor.Red;
+            color = 0x0040;
             health = 5;
+        }
+
+        public override void Die()
+        {
+            Application.CurrentMap.Data[x, y].EmptyTile();
+            Application.entityManager.entityList.Remove(this);
         }
 
     }

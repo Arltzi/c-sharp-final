@@ -13,6 +13,7 @@ namespace DungeonCrawler
         public Wall()
         {
             sprite = '#';
+            color = 0x0002;
             spriteColour = ConsoleColor.Yellow;
         }
 

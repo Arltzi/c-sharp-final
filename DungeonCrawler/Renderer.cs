@@ -35,7 +35,7 @@ namespace DungeonCrawler
         }
 
         // Draw map
-        public void Draw(Map map)
+        public void OldDraw(Map map)
         {
             Console.ResetColor();
 
@@ -56,9 +56,9 @@ namespace DungeonCrawler
                     //This line of code slows execution down by like 100%
                     //Console.BackgroundColor = currentTile.effectColour;
 
-                    if (currentTile.effectColour != ConsoleColor.Black)
+                    if (currentTile.effectColour != 0) 
                     {
-                        Console.BackgroundColor = currentTile.effectColour;
+                        //Console.BackgroundColor = currentTile.effectColour;
                         thereWasEffectColor = true;
                     }
 
@@ -87,9 +87,24 @@ namespace DungeonCrawler
 
             Console.WriteLine(roomBottom);
 
+            Console.Write("\nHealth:");
+            for(int i = 0; i < Application.player.MaxHealth; i++)
+            {
+                if(i < Application.player.Health)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.Write('▓');
+            }
+
             if (Application.DEBUG)
             {
-                Console.WriteLine($"\nPlayer X: {Application.player.x}, Y: {Application.player.y}    ");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"\n\n\nPlayer X: {Application.player.x}, Y: {Application.player.y}    ");
                 Console.WriteLine($"Health : {Application.player.Health}    ");
                 Console.WriteLine($"Current map: {Application.CurrentMap.Name}");
                 Console.WriteLine($"Tick time: {Application.TickTime}     ");
@@ -111,6 +126,7 @@ namespace DungeonCrawler
             {
                 if (i == menu.selectedButton - 1)
                 {
+                    Console.Write("\t    ");
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.Write(">>>");
@@ -119,7 +135,7 @@ namespace DungeonCrawler
                 }
                 else
                 {
-                    Console.WriteLine("   " + menu.buttons[i]);
+                    Console.WriteLine("\t       " + menu.buttons[i]);
                 }
 
                 Console.ResetColor();

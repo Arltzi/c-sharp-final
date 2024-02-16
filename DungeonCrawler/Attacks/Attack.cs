@@ -42,6 +42,31 @@ namespace DungeonCrawler.Attacks
         // Does the attack as per described
         public abstract void Action( Direction dir );
 
+        public void CheckForDamage()
+        {
+            for(int i = 0; i < mAffectedTiles.GetLength(0); i++) {
+
+                if (Application.CurrentMap.Data.GetLength(0) - 1 < i || i < 0)
+                {
+                    break;
+                }
+
+                Tile currentTile = Application.CurrentMap.Data[mAffectedTiles[i, 0], mAffectedTiles[i,1]];
+
+                if(currentTile.Occupant != null)
+                {
+                    if(currentTile.Occupant.GetType() == typeof(Enemy))
+                    {
+                        Enemy e = (Enemy)currentTile.Occupant;
+                        e.TakeDamage();
+                    }
+                }
+
+
+            }
+
+
+        }
 
         // Allows removal of effects data
         public bool CheckIfClearAffectedTiles()
@@ -61,7 +86,7 @@ namespace DungeonCrawler.Attacks
                             break;
                         }
 
-                        Application.CurrentMap.Data[mAffectedTiles[x, 0], mAffectedTiles[x, 1]].effectColour = ConsoleColor.Black ;
+                        Application.CurrentMap.Data[mAffectedTiles[x, 0], mAffectedTiles[x, 1]].effectColour = 15 ;
                     }
 
                     // Clears out vars for later use

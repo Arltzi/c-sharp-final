@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using DungeonCrawler.Attacks;
+using DungeonCrawler.Rendering;
 
 enum InputMap
 {
@@ -15,9 +16,9 @@ enum InputMap
     DOWN = 2,
     RIGHT = 3,
     LEFT = 4,
-    SHOOT = 5,
+    ATTACK = 5,
     PAUSE = 6,
-    DEVBTN = 7
+    DEVBTN = 7,
 }
 
 // Enum for different menus
@@ -48,7 +49,7 @@ namespace DungeonCrawler
         static public int mapX = 56;
         static public int mapY = 20;
 
-        private InputMap inputMap;
+        public static InputMap inputMap;
 
         private Thread inputThread;
 
@@ -148,6 +149,7 @@ namespace DungeonCrawler
 
         static public void GoNextLevel()
         {
+            entityManager.entityList.Clear();
             levelNum++;
             currentMap.Load("map_" + levelNum);
             m_Paused = false;
@@ -189,8 +191,6 @@ namespace DungeonCrawler
 
                 System.Threading.Thread.Sleep(m_TickTime);
 
-                Console.SetCursorPosition(0,0);
-
                 tickCount++;
 
             }
@@ -201,11 +201,22 @@ namespace DungeonCrawler
         {
 
             // Checks attack sto clean
+            //AttackAutoClear.staticRef.CheckAttackOverlap();
             AttackAutoClear.staticRef.CheckAttacksToClean();
 
             if (context == AppContext.GAME) // Tick handling for game
             {
                 entityManager.EnemyUpdate();
+
+                // LEVEL CLEAR CHECK
+                if(entityManager.entityList.Count == 0)
+                {
+                    // ALL ENEMIES DEAD
+                    Pause();
+                    SwapMenu(MenuType.LVLCOMPLETE);
+                }
+
+                // PLAYER INPUT
                 if (inputMap == InputMap.PAUSE)
                 {
                     Pause();
@@ -213,14 +224,19 @@ namespace DungeonCrawler
                 else if (inputMap >= InputMap.UP && inputMap <= InputMap.LEFT) // Check if input is a move input
                 {
                     player.Move(inputMap);
-
                 }
                 else if(inputMap == InputMap.DEVBTN)
                 {
-                    Pause();
-                    SwapMenu(MenuType.LVLCOMPLETE);
-                    //currentLevel++;
-                    //currentMap.Load("map_" + currentLevel);
+
+                    Enemy e = (Enemy)entityManager.entityList[0];
+                    e.Die();
+
+                }
+                else if(inputMap == InputMap.ATTACK)
+                {
+
+                    player.Attack();
+
                 }
 
                 inputMap = InputMap.NONE;
@@ -237,12 +253,11 @@ namespace DungeonCrawler
                     case InputMap.DOWN:
                         m_currentMenu.SelectDown();
                         break;
-                    case InputMap.SHOOT:
+                    case InputMap.ATTACK:
                         m_currentMenu.PressButton();
                         break;
                 }
 
-                //mainMenu.Update(inputMap);
                 inputMap = InputMap.NONE;
 
             }
@@ -260,7 +275,7 @@ namespace DungeonCrawler
 
             if (context == AppContext.GAME) // Game rendering
             {
-                m_Renderer.Draw(CurrentMap);
+                m_Renderer.OldDraw(CurrentMap);
             }
             else if (context == AppContext.MENU) // Menu rendering
             {
@@ -273,6 +288,13 @@ namespace DungeonCrawler
         private void HandleInput()
         {
             if (started) { return; }
+
+            while (true)
+            {
+                InputSystem.instance.GetKeyboardInput();
+            }
+            return;
+
             while (true)
             {
                 if (Console.KeyAvailable)
@@ -295,7 +317,7 @@ namespace DungeonCrawler
                             inputMap = InputMap.LEFT;
                             break;
                         case ConsoleKey.Enter:
-                            inputMap = InputMap.SHOOT;
+                            inputMap = InputMap.ATTACK;
                             break;
                         case ConsoleKey.Escape:
                             inputMap = InputMap.PAUSE;

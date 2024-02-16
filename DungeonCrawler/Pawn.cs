@@ -24,10 +24,37 @@ namespace DungeonCrawler
 
         protected Direction direction;
 
+        public Direction Dir { 
+            get { return direction; }
+            private set { direction = value; }
+        }
+
+
         public Pawn()
         {
             health = 10;
+            attack = new Stab(this);
 
+        }
+
+        public virtual void Die()
+        {
+
+
+        }
+
+        public void TakeDamage(int dmg = 1)
+        {
+            health--;
+            if(health < 0)
+            {
+                Die();
+            }
+        }
+
+        public void Attack()
+        {
+            attack.Action(Dir);
         }
 
         public bool Move(InputMap input)
@@ -176,6 +203,7 @@ namespace DungeonCrawler
                     else if (Application.CurrentMap.Data[x, y - 1].Occupant != null) // Wall tile collision check
                         return false;
                     break;
+
                 case Direction.DOWN:
                     if ((y + 1) == Application.mapY) // Bottom bounds check (allowing player to go down in middle for doorway) (temp)
 

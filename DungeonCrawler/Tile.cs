@@ -9,7 +9,7 @@ namespace DungeonCrawler
     internal struct Tile
     {
 
-        public ConsoleColor effectColour = ConsoleColor.Black;
+        public byte effectColour = 0;
         private Entity? occupant = null;
 
         public Entity? Occupant
@@ -20,7 +20,7 @@ namespace DungeonCrawler
 
         public Tile()
         {
-            effectColour = ConsoleColor.Black;
+            effectColour = 0;
         }
 
         public void SetOccupant(Entity e)
