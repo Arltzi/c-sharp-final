@@ -11,10 +11,6 @@
     <None Remove="map_01.txt" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Maps\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="call moveMaps.bat" />
   </Target>

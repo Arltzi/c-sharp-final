@@ -9,11 +9,24 @@ namespace DungeonCrawler
 {
     internal class Player : Pawn
     {
+        private int maxHealth = 10;
+
+        public int MaxHealth { 
+            get { return maxHealth; }
+            private set { maxHealth = value; }
+        }
+
 
         public Player()
         {
             sprite = '^';
             spriteColour = ConsoleColor.Green;
+            health = maxHealth;
+        }
+
+        public override void Die()
+        {
+            
         }
 
     }

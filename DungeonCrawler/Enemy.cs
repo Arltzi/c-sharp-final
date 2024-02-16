@@ -18,5 +18,11 @@ namespace DungeonCrawler
             health = 5;
         }
 
+        public override void Die()
+        {
+            Application.CurrentMap.Data[x, y].EmptyTile();
+            Application.entityManager.entityList.Remove(this);
+        }
+
     }
 }
