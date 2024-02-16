@@ -79,12 +79,14 @@ namespace DungeonCrawler.Rendering
                         // draws an empty spot
                         export[j + 8, i + 6].sprite = ' ';
                         export[j + 8, i + 6].color = 4;
+                        export[j + 4, i + 6].effectColor = currentTile.effectColour;
                     }
                     else
                     {
                         // draws the occupant
                         export[j + 8, i + 6].sprite = currentTile.Occupant.sprite;
                         export[j + 8, i + 6].color = currentTile.Occupant.color;
+                        export[j + 8, i + 6].effectColor = currentTile.effectColour;
                     }
 
 
@@ -211,9 +213,9 @@ namespace DungeonCrawler.Rendering
                     //This line of code slows execution down by like 100%
                     //Console.BackgroundColor = currentTile.effectColour;
 
-                    if (currentTile.effectColour != ConsoleColor.Black)
+                    if (currentTile.effectColour != 0)
                     {
-                        Console.BackgroundColor = currentTile.effectColour;
+                        ///Console.BackgroundColor = currentTile.effectColour;
                         thereWasEffectColor = true;
                     }
 

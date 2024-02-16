@@ -190,8 +190,6 @@ namespace DungeonCrawler
 
                 System.Threading.Thread.Sleep(m_TickTime);
 
-                Console.SetCursorPosition(0,0);
-
                 tickCount++;
 
             }

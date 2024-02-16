@@ -12,6 +12,7 @@ namespace DungeonCrawler.Rendering
 
         // TODO add color
         public byte color;
+        public byte effectColor = 0;
 
         public RenderTile() 
         {

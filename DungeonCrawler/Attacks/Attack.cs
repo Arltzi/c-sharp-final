@@ -61,7 +61,7 @@ namespace DungeonCrawler.Attacks
                             break;
                         }
 
-                        Application.CurrentMap.Data[mAffectedTiles[x, 0], mAffectedTiles[x, 1]].effectColour = ConsoleColor.Black ;
+                        Application.CurrentMap.Data[mAffectedTiles[x, 0], mAffectedTiles[x, 1]].effectColour = 15 ;
                     }
 
                     // Clears out vars for later use

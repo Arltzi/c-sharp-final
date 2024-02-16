@@ -73,7 +73,17 @@ namespace DungeonCrawler.Rendering
                 for (int i = 0; i < buffer.GetLength(0); ++i)
                 {
                     buffer[i].Char.AsciiChar = (byte)usableInput[i].sprite;
-                    buffer[i].Attributes = usableInput[i].color;
+
+                    // decides which color to draw
+                    if (usableInput[i].effectColor == 0)
+                    {
+                        buffer[i].Attributes = usableInput[i].color;
+                    }
+
+                    else 
+                    {
+                        buffer[i].Attributes = usableInput[i].effectColor;
+                    }
                 }
 
                 bool b = WriteConsoleOutputW
