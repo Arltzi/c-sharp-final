@@ -96,7 +96,7 @@ namespace DungeonCrawler.Attacks
                 // Draw out the affected stuff
                 mAffectedTiles[iter + (renditionNum * 2), 0] = x + xIter;
                 mAffectedTiles[iter + (renditionNum * 2), 1] = y + yIter;
-                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = 15;
+                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
 
                 // Iterates along proper direction
                 yIter += yDir;
