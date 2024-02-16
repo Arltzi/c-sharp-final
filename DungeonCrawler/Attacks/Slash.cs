@@ -103,6 +103,8 @@ namespace DungeonCrawler.Attacks
                 xIter += xDir;
             }
 
+            CheckForDamage();
+
         }
 
     }

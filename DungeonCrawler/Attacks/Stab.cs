@@ -92,6 +92,8 @@ namespace DungeonCrawler.Attacks
 
             // Prepare ntuff that needs clearing to be cleared
             affectedtilesNeedClearing = true;
+
+            CheckForDamage();
         }
     }
 }
