@@ -54,13 +54,9 @@ namespace DungeonCrawler
                     Tile currentTile = map.Data[j, i];
 
                     //This line of code slows execution down by like 100%
-                    //Console.BackgroundColor = currentTile.effectColour;
+                    Console.BackgroundColor = currentTile.effectColour;
 
-                    if (currentTile.effectColour != 0) 
-                    {
-                        //Console.BackgroundColor = currentTile.effectColour;
-                        thereWasEffectColor = true;
-                    }
+                    
 
                     if(currentTile.Occupant == null)
                     {
