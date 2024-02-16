@@ -193,6 +193,8 @@ namespace DungeonCrawler
 
                 tickCount++;
 
+                Console.SetCursorPosition(0, 0);
+
             }
 
         }
@@ -293,7 +295,7 @@ namespace DungeonCrawler
             {
                 InputSystem.instance.GetKeyboardInput();
             }
-            return;
+
 
             while (true)
             {
