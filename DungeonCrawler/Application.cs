@@ -199,14 +199,14 @@ namespace DungeonCrawler
 
         private void Update()
         {
-            
+
             // Checks attack sto clean
             //AttackAutoClear.staticRef.CheckAttackOverlap();
             AttackAutoClear.staticRef.CheckAttacksToClean();
 
             if (context == AppContext.GAME) // Tick handling for game
             {
-
+                entityManager.EnemyUpdate();
 
                 // LEVEL CLEAR CHECK
                 if(entityManager.entityList.Count == 0)
@@ -299,7 +299,7 @@ namespace DungeonCrawler
             {
                 if (Console.KeyAvailable)
                 {
-                    
+
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                     switch (keyInfo.Key)

@@ -72,7 +72,7 @@ namespace DungeonCrawler
                         Console.Write(currentTile.Occupant.sprite);
                     }
 
-                    if (thereWasEffectColor) 
+                    if (thereWasEffectColor)
                     {
                         thereWasEffectColor = false;
                         Console.BackgroundColor = ConsoleColor.Black;
