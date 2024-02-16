@@ -62,7 +62,7 @@ namespace DungeonCrawler.Rendering
 
             // Get the console buffer
             SafeFileHandle h = CreateFile("CONOUT$", 0x40000000, 2, IntPtr.Zero, FileMode.Open, 0, IntPtr.Zero);
-
+            
             if (!h.IsInvalid)
             {
                 // the buffer vars
@@ -73,7 +73,7 @@ namespace DungeonCrawler.Rendering
                 for (int i = 0; i < buffer.GetLength(0); ++i)
                 {
                     buffer[i].Char.AsciiChar = (byte)usableInput[i].sprite;
-                    buffer[i].Attributes = 4;
+                    buffer[i].Attributes = usableInput[i].color;
                 }
 
                 bool b = WriteConsoleOutputW

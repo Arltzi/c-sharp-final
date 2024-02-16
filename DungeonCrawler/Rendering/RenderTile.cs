@@ -9,9 +9,9 @@ namespace DungeonCrawler.Rendering
     internal class RenderTile
     {
         public char sprite;
-        
-        // TODO add color
 
+        // TODO add color
+        public byte color;
 
         public RenderTile() 
         {

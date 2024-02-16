@@ -177,7 +177,7 @@ namespace DungeonCrawler
                         return false;
                     break;
 
-                case InputMap.DOWN:
+                case Direction.DOWN:
                     if ((y + 1) == Application.mapY) // Bottom bounds check (allowing player to go down in middle for doorway) (temp)
 
                         return false;

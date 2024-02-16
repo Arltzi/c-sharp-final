@@ -12,21 +12,21 @@ namespace DungeonCrawler.Rendering
 {
     internal class Renderer
     {
-        private string roomTop = "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
-                                 "▓▓                                                                ▓▓\n" +
-                                 "▓ ▓                                                              ▓ ▓\n" +
-                                 "▓  ▓                                                            ▓  ▓\n" +
-                                 "▓   ▓                                                          ▓   ▓\n" +
-                                 "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n";
+        private string roomTop = "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
+                                 "▓▓                                                                  ▓▓\n" +
+                                 "▓ ▓                                                              ▓   ▓\n" +
+                                 "▓  ▓                                                            ▓    ▓\n" +
+                                 "▓   ▓                                                          ▓     ▓\n" +
+                                 "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n";
 
         private string roomSide = "▓    ▓";
 
-        private string roomBottom = "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n" +
-                                    "▓   ▓                    ▓                ▓                    ▓   ▓\n" +
-                                    "▓  ▓                    ▓▓                ▓▓                    ▓  ▓\n" +
-                                    "▓ ▓                    ▓ ▓                ▓ ▓                    ▓ ▓\n" +
-                                    "▓▓                    ▓  ▓                ▓  ▓                    ▓▓\n" +
-                                    "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓";
+        private string roomBottom = "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓      ▓\n" +
+                                    "▓   ▓                    ▓                ▓                      ▓   ▓\n" +
+                                    "▓  ▓                    ▓▓                ▓▓                      ▓  ▓\n" +
+                                    "▓ ▓                    ▓ ▓                ▓ ▓                      ▓ ▓\n" +
+                                    "▓▓                    ▓  ▓                ▓  ▓                      ▓▓\n" +
+                                    "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓";
 
         // Export char array is passed to GameRenderer
         private RenderTile[,] export;
@@ -57,61 +57,42 @@ namespace DungeonCrawler.Rendering
                 }
             }
 
-
-            //Console.ResetColor();
-
-            Console.Write(roomTop);
-
+            // draws top and bottom of room
+            DrawRoomSection(0, roomTop);
+            DrawRoomSection(Map.mapHeight + 6, roomBottom);
             for (int i = 0; i < Map.mapHeight; i++)
             {
+                
+                // draws side of room
+                DrawRoomSide(0, i + 6 );
 
-                DrawRoomSide(0, i);
-                // bool thereWasEffectColor = false;     old unnecessary counter variable
 
+                // parses map
                 for (int j = 0; j < Map.mapWidth; j++)
                 {
-
+                    // declarations
                     Tile currentTile = map.Data[j, i];
 
-                    //This line of code slows execution down by like 100%
-                    //Console.BackgroundColor = currentTile.effectColour;
-
-                    /*
-                    if (currentTile.effectColour != ConsoleColor.Black)
-                    {
-                        Console.BackgroundColor = currentTile.effectColour;
-                        thereWasEffectColor = true;
-                    }*/
-
+                    // Checks if ther is an occupant
                     if (currentTile.Occupant == null)
                     {
-                        //Console.Write(' ');
-                        export[j + 8, i /* +6 */].sprite = ' ';
+                        // draws an empty spot
+                        export[j + 8, i + 6].sprite = ' ';
+                        export[j + 8, i + 6].color = 4;
                     }
                     else
                     {
-                        //Console.ForegroundColor = currentTile.Occupant.SpriteColour;
-                        //Console.Write(currentTile.Occupant.sprite);
-                        export[j + 8, i/* + 6*/].sprite = currentTile.Occupant.sprite;
+                        // draws the occupant
+                        export[j + 8, i + 6].sprite = currentTile.Occupant.sprite;
+                        export[j + 8, i + 6].color = currentTile.Occupant.color;
                     }
 
-                    /*
-                    if (thereWasEffectColor)
-                    {
-                        thereWasEffectColor = false;
-                        Console.BackgroundColor = ConsoleColor.Black;
-                    }
-                    */
 
                 }
 
-                //Console.ResetColor();
-
-                //Console.WriteLine(roomSide);
-                DrawRoomSide(Map.mapWidth, i);
+                DrawRoomSide(Map.mapWidth + 2, i + 6 );
             }
 
-            //Console.WriteLine(roomBottom);
 
             GameRenderer.WriteToBuffer(export);
 
@@ -130,18 +111,49 @@ namespace DungeonCrawler.Rendering
         }
 
 
+        void DrawRoomSection (int height, string toPrint) 
+        {
+            // declarations
+            char currentCharater;
+            int y = height;
+            int x = 0;
+
+            // draw the room section provided
+            for (int iterator = 0; iterator < toPrint.Length; iterator++) 
+            {
+                currentCharater = toPrint[iterator];
+
+                if (currentCharater == '\n') 
+                {
+                    y++;
+                    x = 0;
+                    continue;
+                }
+                x++;
+                export[x, y] = new RenderTile(currentCharater);
+                export[x, y].color = 15;
+            }
+        }
+
+
+
         // Draws room side
         void DrawRoomSide(int x, int y)
         {
-            export[x, y].sprite = '▓';
+            // draw the border
+            export[x+1, y].sprite = '#';
+            export[x+1, y].color = 15;
 
+            // draws the spaces
             for (int iter = 0; iter < 4; iter++)
             {
                 x += iter;
                 export[x, y].sprite = ' ';
             }
-            export[x, y].sprite = '▓';
 
+            // draw the border
+            export[x+1, y].sprite = '▓';
+            export[x+1, y].color = 15;
         }
 
 
@@ -175,6 +187,8 @@ namespace DungeonCrawler.Rendering
             //Console.WriteLine($"{menu.selectedButton}");
 
         }
+
+        
 
         public void OldDraw(Map map)
         {

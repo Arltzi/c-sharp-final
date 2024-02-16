@@ -12,6 +12,8 @@ namespace DungeonCrawler
         public char sprite = '@';
         protected ConsoleColor spriteColour = ConsoleColor.White;
 
+        public byte color;
+
         public ConsoleColor SpriteColour
         {
             get { return spriteColour; }

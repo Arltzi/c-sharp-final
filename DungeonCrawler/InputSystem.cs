@@ -25,7 +25,7 @@ namespace DungeonCrawler
             downer = GetAsyncKeyState(0x53);
             lefert = GetAsyncKeyState(0x41);
             righert = GetAsyncKeyState(0x44);
-            /*
+            
             // A
             if (GetAsyncKeyState(0x41) )
             {
@@ -60,8 +60,8 @@ namespace DungeonCrawler
             else 
             {
                 Application.inputMap = InputMap.NONE;
-            }l
-            */
+            }
+            
         }
 
     }

@@ -14,6 +14,7 @@ namespace DungeonCrawler
         {
             sprite = '^';
             spriteColour = ConsoleColor.Green;
+            color = 0x0010;
         }
 
     }

@@ -49,7 +49,7 @@ namespace DungeonCrawler
         static public int mapX = 56;
         static public int mapY = 20;
 
-        private InputMap inputMap;
+        public static InputMap inputMap;
 
         private Thread inputThread;
 
@@ -274,6 +274,13 @@ namespace DungeonCrawler
         private void HandleInput()
         {
             if (started) { return; }
+
+            while (true)
+            {
+                InputSystem.instance.GetKeyboardInput();
+            }
+            return;
+
             while (true)
             {
                 if (Console.KeyAvailable)
