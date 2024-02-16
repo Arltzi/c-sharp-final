@@ -46,7 +46,7 @@ namespace DungeonCrawler
         static public int mapX = 56;
         static public int mapY = 20;
 
-        private InputMap inputMap;
+        public static InputMap inputMap;
 
         private Thread inputThread;
 
@@ -128,6 +128,15 @@ namespace DungeonCrawler
 
         }
 
+        void HandleInput() 
+        {
+            while (true)
+            {
+                InputSystem.instance.GetKeyboardInput();
+                System.Threading.Thread.Sleep(10);
+            }
+        }
+
         public void Run()
         {
             // Start input thread
@@ -168,6 +177,7 @@ namespace DungeonCrawler
         {
             while (m_isRunning)
             {
+                //InputSystem.instance.GetKeyboardInput();
                 started = true;
 
                 // TODO: Tidy up and implement "render contexts" for more cleanly implemented system for swapping between gameplay / menu
@@ -230,10 +240,14 @@ namespace DungeonCrawler
                         m_currentMenu.PressButton();
                         break;
                 }
-
                 //mainMenu.Update(inputMap);
                 inputMap = InputMap.NONE;
 
+            }
+
+            else 
+            {
+                player.Move(inputMap);
             }
 
         }
@@ -254,7 +268,8 @@ namespace DungeonCrawler
         }
 
         // Input function handled on independant thread
-        private void HandleInput()
+        
+        private void OldHandleInput()
         {
             if (started) { return; }
             while (true)

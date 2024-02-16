@@ -38,18 +38,25 @@ namespace DungeonCrawler.Rendering
         }
 
         // Draw map
+        bool useOldDraw = false;
         public void Draw(Map map)
         {
+            if (useOldDraw)
+            {
+                OldDraw(map);
+                return;
+            }
+
             // Setup render tiles
-            export = new RenderTile[ map.Data.GetLength(0) + 68, map.Data.GetLength(1)+12 ];
-            for (int y = 0; y < export.GetLength(1); y++) 
+            export = new RenderTile[map.Data.GetLength(0) + 68, map.Data.GetLength(1) + 12];
+            for (int y = 0; y < export.GetLength(1); y++)
             {
                 for (int x = 0; x < export.GetLength(0); x++)
                 {
                     export[x, y] = new RenderTile();
                 }
             }
-            
+
 
             //Console.ResetColor();
 
@@ -57,7 +64,7 @@ namespace DungeonCrawler.Rendering
 
             for (int i = 0; i < Map.mapHeight; i++)
             {
-              
+
                 DrawRoomSide(0, i);
                 // bool thereWasEffectColor = false;     old unnecessary counter variable
 
@@ -101,7 +108,7 @@ namespace DungeonCrawler.Rendering
                 //Console.ResetColor();
 
                 //Console.WriteLine(roomSide);
-                DrawRoomSide(Map.mapWidth , i);
+                DrawRoomSide(Map.mapWidth, i);
             }
 
             //Console.WriteLine(roomBottom);
@@ -123,11 +130,11 @@ namespace DungeonCrawler.Rendering
 
 
         // Draws room side
-        void DrawRoomSide (int x, int y)
+        void DrawRoomSide(int x, int y)
         {
             export[x, y].sprite = '▓';
 
-            for (int iter = 0; iter < 4; iter++) 
+            for (int iter = 0; iter < 4; iter++)
             {
                 x += iter;
                 export[x, y].sprite = ' ';
@@ -167,6 +174,58 @@ namespace DungeonCrawler.Rendering
             //Console.WriteLine($"{menu.selectedButton}");
 
         }
+
+        public void OldDraw(Map map)
+        {
+            Console.ResetColor();
+
+            Console.Write(roomTop);
+
+            for (int i = 0; i < Map.mapHeight; i++)
+            {
+                Console.ResetColor();
+
+                Console.Write(roomSide);
+                bool thereWasEffectColor = false;
+
+                for (int j = 0; j < Map.mapWidth; j++)
+                {
+
+                    Tile currentTile = map.Data[j, i];
+
+                    //This line of code slows execution down by like 100%
+                    //Console.BackgroundColor = currentTile.effectColour;
+
+                    if (currentTile.effectColour != ConsoleColor.Black)
+                    {
+                        Console.BackgroundColor = currentTile.effectColour;
+                        thereWasEffectColor = true;
+                    }
+
+                    if (currentTile.Occupant == null)
+                    {
+                        Console.Write(' ');
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = currentTile.Occupant.SpriteColour;
+                        Console.Write(currentTile.Occupant.sprite);
+                    }
+
+                    if (thereWasEffectColor)
+                    {
+                        thereWasEffectColor = false;
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
+
+                }
+
+                Console.ResetColor();
+
+                Console.WriteLine(roomSide);
+            }
+        }
+
 
     }
 }
