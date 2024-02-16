@@ -119,7 +119,7 @@ namespace DungeonCrawler
 
             inputThread = new Thread(HandleInput);
 
-            m_TickTime = 20;
+            m_TickTime = 100;
 
             m_isRunning = true;
             m_Paused = true;
@@ -152,7 +152,7 @@ namespace DungeonCrawler
             entityManager.entityList.Clear();
             levelNum++;
             currentMap.Load("map_" + levelNum);
-            m_Paused = false;
+            UnPause();
         }
 
         private bool Init()
