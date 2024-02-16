@@ -12,22 +12,21 @@ namespace DungeonCrawler.Rendering
 {
     internal class Renderer
     {
-        private string roomTop = "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
-                                 "▓▓                                                                  ▓▓\n" +
-                                 "▓ ▓                                                              ▓   ▓\n" +
-                                 "▓  ▓                                                            ▓    ▓\n" +
-                                 "▓   ▓                                                          ▓     ▓\n" +
-                                 "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n";
+        private string roomTop = "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓\n" +
+                                 "▓▓                                                                ▓▓\n" +
+                                 "▓ ▓                                                              ▓ ▓\n" +
+                                 "▓  ▓                                                            ▓  ▓\n" +
+                                 "▓   ▓                                                          ▓   ▓\n" +
+                                 "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n";
 
         private string roomSide = "▓    ▓";
 
-        private string roomBottom = "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓      ▓\n" +
-                                    "▓   ▓                    ▓                ▓                      ▓   ▓\n" +
-                                    "▓  ▓                    ▓▓                ▓▓                      ▓  ▓\n" +
-                                    "▓ ▓                    ▓ ▓                ▓ ▓                      ▓ ▓\n" +
-                                    "▓▓                    ▓  ▓                ▓  ▓                      ▓▓\n" +
-                                    "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓";
-
+        private string roomBottom = "▓    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓                ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓    ▓\n" +
+                                    "▓   ▓                    ▓                ▓                    ▓   ▓\n" +
+                                    "▓  ▓                    ▓▓                ▓▓                    ▓  ▓\n" +
+                                    "▓ ▓                    ▓ ▓                ▓ ▓                    ▓ ▓\n" +
+                                    "▓▓                    ▓  ▓                ▓  ▓                    ▓▓\n" +
+                                    "▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓";
         // Export char array is passed to GameRenderer
         private RenderTile[,] export;
         public Renderer()
@@ -190,8 +189,8 @@ namespace DungeonCrawler.Rendering
 
         }
 
-        
 
+        // draw map
         public void OldDraw(Map map)
         {
             Console.ResetColor();
@@ -215,7 +214,7 @@ namespace DungeonCrawler.Rendering
 
                     if (currentTile.effectColour != 0)
                     {
-                        ///Console.BackgroundColor = currentTile.effectColour;
+                        //Console.BackgroundColor = currentTile.effectColour;
                         thereWasEffectColor = true;
                     }
 
@@ -241,11 +240,40 @@ namespace DungeonCrawler.Rendering
 
                 Console.WriteLine(roomSide);
             }
+
+            Console.WriteLine(roomBottom);
+
+            Console.Write("\nHealth:");
+            for (int i = 0; i < Application.player.MaxHealth; i++)
+            {
+                if (i < Application.player.Health)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                Console.Write('▓');
+            }
+
+            if (Application.DEBUG)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"\n\n\nPlayer X: {Application.player.x}, Y: {Application.player.y}    ");
+                Console.WriteLine($"Health : {Application.player.Health}    ");
+                Console.WriteLine($"Current map: {Application.CurrentMap.Name}");
+                Console.WriteLine($"Tick time: {Application.TickTime}     ");
+                Console.WriteLine($"Tick count:{Application.tickCount}    ");
+                //Console.WriteLine($"Input: {inputMap}   ");
+            }
+
         }
+    }
 
 
     }
-}
+
 
 
 
