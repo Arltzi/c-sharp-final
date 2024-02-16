@@ -103,14 +103,14 @@ namespace DungeonCrawler
         static public void UnPause()
         {
             m_Paused = false;
-            m_TickTime = 1;
+            m_TickTime = 20;
         }
 
         static public void Pause()
         {
             Console.Clear();
             m_Paused = true;
-            m_TickTime = 100;
+            m_TickTime = 200;
         }
 
         public Application()
@@ -119,7 +119,7 @@ namespace DungeonCrawler
 
             inputThread = new Thread(HandleInput);
 
-            m_TickTime = 100;
+            m_TickTime = 20;
 
             m_isRunning = true;
             m_Paused = true;

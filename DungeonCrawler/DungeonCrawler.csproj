@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <Folder Include="InputSystem\"/>
+	<Folder Include="InputSystem\" />
     <Folder Include="Maps\" />
   </ItemGroup>
 
