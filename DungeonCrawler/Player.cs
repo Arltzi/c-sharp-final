@@ -21,14 +21,17 @@ namespace DungeonCrawler
         {
             sprite = '^';
             spriteColour = ConsoleColor.Green;
-            health = maxHealth;
+            color = 0x0010;
+            health = MaxHealth;
         }
 
-        public override void Die()
-        {
-            
+        public override void Die() { 
+        
+
         }
 
     }
+
+    
 }
 
