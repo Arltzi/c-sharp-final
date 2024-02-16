@@ -83,7 +83,7 @@ namespace DungeonCrawler.Attacks
                 // Assigns values to store
                 mAffectedTiles[iter,0] = x + xIter;
                 mAffectedTiles[iter, 1] = y + yIter;
-                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = 15;
+                Application.CurrentMap.Data[x + xIter, y + yIter].effectColour = ConsoleColor.White;
 
                 // iterates across the proper acess in proper direction
                 xIter += horizontalDir;
