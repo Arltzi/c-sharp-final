@@ -15,7 +15,6 @@ namespace DungeonCrawler
         // SPAWNING STUFF
         public EntityManager()
         {
-            entityList.Add(Application.player);
         }
         public Enemy CreateEnemy()
         {

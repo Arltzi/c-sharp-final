@@ -24,10 +24,37 @@ namespace DungeonCrawler
 
         protected Direction direction;
 
+        public Direction Dir { 
+            get { return direction; }
+            private set { direction = value; }
+        }
+
+
         public Pawn()
         {
             health = 10;
+            attack = new Stab(this);
 
+        }
+
+        public virtual void Die()
+        {
+
+
+        }
+
+        public void TakeDamage(int dmg = 1)
+        {
+            health--;
+            if(health < 0)
+            {
+                Die();
+            }
+        }
+
+        public void Attack()
+        {
+            attack.Action(Dir);
         }
 
         public bool Move(InputMap input)
