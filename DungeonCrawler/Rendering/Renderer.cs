@@ -119,6 +119,7 @@ namespace DungeonCrawler.Rendering
             if (Application.DEBUG)
             {
                 Console.WriteLine($"\nPlayer X: {Application.player.x}, Y: {Application.player.y}    ");
+                Console.WriteLine($"Health : {Application.player.Health}    ");
                 Console.WriteLine($"Current map: {Application.CurrentMap.Name}");
                 Console.WriteLine($"Tick time: {Application.TickTime}     ");
                 Console.WriteLine($"Tick count:{Application.tickCount}    ");
@@ -148,7 +149,7 @@ namespace DungeonCrawler.Rendering
         public void Draw(Menu menu)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(menu.logo);
+            Console.WriteLine(menu.text);
 
             Console.ResetColor();
 

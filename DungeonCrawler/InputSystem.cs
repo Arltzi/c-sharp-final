@@ -9,7 +9,7 @@ namespace DungeonCrawler
 {
     internal class InputSystem
     {
-        public static InputSystem instance = new InputSystem()
+        public static InputSystem instance = new InputSystem();
 
         public bool upper, downer, lefert, righert, shooter;
 
@@ -60,7 +60,7 @@ namespace DungeonCrawler
             else 
             {
                 Application.inputMap = InputMap.NONE;
-            }
+            }l
             */
         }
 

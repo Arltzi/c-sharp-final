@@ -8,7 +8,7 @@ namespace DungeonCrawler
 {
     internal class Menu
     {
-        public string logo = string.Empty;
+        public string text = string.Empty;
 
         // Put buttons here
         public string[] buttons = { };

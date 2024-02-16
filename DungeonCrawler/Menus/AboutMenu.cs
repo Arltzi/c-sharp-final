@@ -10,7 +10,7 @@ namespace DungeonCrawler
     {
         public AboutMenu()
         {
-            logo = "This game was made by absolute goats\n\n\n\n";
+            text = "This game was made by absolute goats\n\n\n\n";
 
             buttons = new string[] { "Back" };
             selectedButton = 1;

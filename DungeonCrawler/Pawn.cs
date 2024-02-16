@@ -14,10 +14,19 @@ namespace DungeonCrawler
         public int x, y;
         public Attack attack;
 
-        protected InputMap direction;
+        protected int health;
+
+        public int Health
+        {
+            get { return health; }
+            private set { health = value; }
+        }
+
+        protected Direction direction;
 
         public Pawn()
         {
+            health = 10;
 
         }
 
@@ -26,11 +35,11 @@ namespace DungeonCrawler
             int oldX = x;
             int oldY = y;
 
-            direction = input;
+            direction = (Direction)input;
 
             switch (direction)
             {
-                case InputMap.UP:
+                case Direction.UP:
 
                     sprite = '^';
 
@@ -43,7 +52,7 @@ namespace DungeonCrawler
                     }
                     break;
 
-                case InputMap.DOWN:
+                case Direction.DOWN:
 
                     sprite = 'v';
 
@@ -57,7 +66,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case InputMap.RIGHT:
+                case Direction.RIGHT:
 
                     sprite = '>';
 
@@ -71,7 +80,7 @@ namespace DungeonCrawler
 
                     break;
 
-                case InputMap.LEFT:
+                case Direction.LEFT:
 
                     sprite = '<';
 
@@ -90,12 +99,78 @@ namespace DungeonCrawler
 
         }
 
+        public bool Move(Direction direction)
+        {
+            int oldX = x;
+            int oldY = y;
+
+            switch (direction)
+            {
+                case Direction.UP:
+
+                    sprite = '^';
+
+                    if (CollisionCheck() == true)
+                    {
+                        y--;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+                    break;
+
+                case Direction.DOWN:
+
+                    sprite = 'v';
+
+                    if (CollisionCheck() == true)
+                    {
+                        y++;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.RIGHT:
+
+                    sprite = '>';
+
+                    if (CollisionCheck() == true)
+                    {
+                        x++;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+
+                    break;
+
+                case Direction.LEFT:
+
+                    sprite = '<';
+
+                    if (CollisionCheck() == true)
+                    {
+                        x--;
+                        Application.CurrentMap.Data[oldX, oldY].EmptyTile();
+                        Application.CurrentMap.Data[x, y].SetOccupant(this);
+                        return true;
+                    }
+                    break;
+
+            }
+
+            return false;
+
+        }
         protected bool CollisionCheck()
         {
 
             switch (direction)
             {
-                case InputMap.UP:
+                case Direction.UP:
                     if ((y - 1) == -1) // Top bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x, y - 1].Occupant != null) // Wall tile collision check
@@ -109,13 +184,13 @@ namespace DungeonCrawler
                     else if (Application.CurrentMap.Data[x, y + 1].Occupant != null) // Wall tile collision check
                         return false;
                     break;  
-                case InputMap.RIGHT:
+                case Direction.RIGHT:
                     if ((x + 1) == Application.mapX) // Right bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x + 1, y].Occupant != null) // Wall tile collision check
                         return false;
                     break;
-                case InputMap.LEFT:
+                case Direction.LEFT:
                     if ((x - 1) == -1) // Left bounds check
                         return false;
                     else if (Application.CurrentMap.Data[x - 1, y].Occupant != null) // Wall tile collision check
