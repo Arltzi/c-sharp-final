@@ -56,9 +56,9 @@ namespace DungeonCrawler
                     //This line of code slows execution down by like 100%
                     //Console.BackgroundColor = currentTile.effectColour;
 
-                    if (currentTile.effectColour != ConsoleColor.Black) 
+                    if (currentTile.effectColour != 0) 
                     {
-                        Console.BackgroundColor = currentTile.effectColour;
+                        //Console.BackgroundColor = currentTile.effectColour;
                         thereWasEffectColor = true;
                     }
 

@@ -35,7 +35,7 @@ namespace DungeonCrawler
             // enter
             else if (GetAsyncKeyState(0x0D))
             {
-                Application.inputMap = InputMap.SHOOT;
+                Application.inputMap = InputMap.ATTACK;
             }
 
             // s
