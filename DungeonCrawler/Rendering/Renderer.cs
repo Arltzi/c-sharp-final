@@ -6,10 +6,9 @@ using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using DungeonCrawler.Rendering;
 
 // TODO Implement class
-namespace DungeonCrawler
+namespace DungeonCrawler.Rendering
 {
     internal class Renderer
     {
