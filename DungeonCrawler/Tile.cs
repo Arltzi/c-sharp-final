@@ -10,6 +10,7 @@ namespace DungeonCrawler
     {
 
         public ConsoleColor effectColour = ConsoleColor.Black;
+        public byte newEffectColor = 0;
         private Entity? occupant = null;
 
         public Entity? Occupant
