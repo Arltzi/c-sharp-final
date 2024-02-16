@@ -40,7 +40,7 @@ namespace DungeonCrawler
                     FloatLerp(origin.X, target.X, (float)1.0/distance * i),
                     FloatLerp(origin.Y, target.Y, (float)1.0/distance * i)));
                 // what a fucking line
-                Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].effectColour = ConsoleColor.Magenta;
+                //Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].effectColour = ConsoleColor.Magenta;
                 if(Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].Occupant != null)
                 {
                     if(Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].Occupant.GetType() == typeof(Wall))
