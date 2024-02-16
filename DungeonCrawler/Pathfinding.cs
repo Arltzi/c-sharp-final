@@ -1,3 +1,4 @@
+using System.Data;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 
@@ -19,37 +20,33 @@ namespace DungeonCrawler
             return a + (b - a) * t;
         }
 
-        public static Tile TileRound(Vector2 fracCoords)
+        public static Vector2 TileRound(Vector2 fracCoords)
         {
-            return Application.CurrentMap.Data[(int)Math.Round(fracCoords.X), (int)Math.Round(fracCoords.Y)];
+            // Application.CurrentMap.Data[(int)Math.Round(fracCoords.X), (int)Math.Round(fracCoords.Y)].effectColour = ConsoleColor.Magenta;
+            return new Vector2((int)Math.Round(fracCoords.X), (int)Math.Round(fracCoords.Y));
         }
 
-        public static float Distance(Vector2 origin, Vector2 target)
+        public static int Distance(Vector2 origin, Vector2 target)
         {
-            return (float)Math.Sqrt((target.X - origin.X)*(target.X - origin.X) + (target.Y - origin.Y)*(target.Y - origin.Y));
-        }
-
-        public static Tile[] DrawLine(Vector2 origin, Vector2 target)
-        {
-            float distance = Distance(origin, target);
-            Tile[] results = new Tile[(int)distance + 1];
-            for (int i = 0; i <= distance; i++)
-            {
-                // what a fucking line
-                Tile lerpCoords = TileRound(new Vector2(FloatLerp(origin.X, target.X, (float)1.0/distance * i), FloatLerp(origin.Y, target.Y, (float)1.0/distance * i)));
-                results.Append<Tile>(lerpCoords);
-            }
-            return results;
+            return Math.Max((int)Math.Abs(origin.X - target.X), (int)Math.Abs(origin.Y - target.Y));
         }
 
         public static bool SightLineExists(Vector2 origin, Vector2 target)
         {
-            Tile[] tiles = DrawLine(origin, target);
-            foreach (Tile tile in tiles)
+            int distance = Distance(origin, target);
+            for (int i = 0; i <= distance + 1; i++)
             {
-                if(tile.Occupant.GetType() == typeof(Wall))
+                Vector2 tileCoord = TileRound(new Vector2(
+                    FloatLerp(origin.X, target.X, (float)1.0/distance * i),
+                    FloatLerp(origin.Y, target.Y, (float)1.0/distance * i)));
+                // what a fucking line
+                Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].effectColour = ConsoleColor.Magenta;
+                if(Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].Occupant != null)
                 {
-                    return false;
+                    if(Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].Occupant.GetType() == typeof(Wall))
+                    {
+                        return false;
+                    };
                 }
             }
             return true;
@@ -58,10 +55,10 @@ namespace DungeonCrawler
         static bool IsValidTile(Vector2 tile)
         {
             if(
-                0 <= tile.X && tile.X <= Application.CurrentMap.Data.GetLength(0)
-                && 0 <= tile.Y && tile.Y <= Application.CurrentMap.Data.GetLength(1)
-                && Application.CurrentMap.Data[(int)tile.X, (int)tile.Y].Occupant.GetType() != typeof(Wall)
-                && Application.CurrentMap.Data[(int)tile.X, (int)tile.Y].Occupant.GetType() != typeof(Enemy)
+                0 <= tile.X && tile.X <= Application.CurrentMap.Data.GetLength(0) - 1
+                && 0 <= tile.Y && tile.Y <= Application.CurrentMap.Data.GetLength(1) - 1
+                && (Application.CurrentMap.Data[(int)tile.X, (int)tile.Y].Occupant == null
+                || Application.CurrentMap.Data[(int)tile.X, (int)tile.Y].Occupant.GetType() != typeof(Wall))
             )
             {
                 return true;
@@ -99,38 +96,38 @@ namespace DungeonCrawler
 
                 foreach (KeyValuePair<Vector2, Vector2?> checkTile in checkedTiles)
                 {
-                    foreach (Vector2 neighbour in GetNeighbours(checkTile.Key))
+                    foreach (Vector2? neighbour in GetNeighbours(checkTile.Key))
                     {
                         if(neighbour != null)
                         {
-                            if(!checkedTiles.ContainsKey(neighbour) && !newTiles.ContainsKey(neighbour))
+                            if(!checkedTiles.ContainsKey((Vector2)neighbour) && !newTiles.ContainsKey((Vector2)neighbour))
                             {
-                                newTiles.Add(neighbour, checkTile.Key);
+                                newTiles.Add((Vector2)neighbour, checkTile.Key);
                             }
                         }
                     }
+                }
 
-                    foreach (KeyValuePair<Vector2, Vector2?> newTile in newTiles)
+                foreach (KeyValuePair<Vector2, Vector2?> newTile in newTiles)
+                {
+                    checkedTiles.Add(newTile.Key, newTile.Value);
+                    if(newTile.Key == target)
                     {
-                        checkedTiles.Add(newTile.Key, newTile.Value);
-                        if(newTile.Key == target)
-                        {
-                            done = true;
-                            break;
-                        }
-                    }
-
-                    if(!done && newTiles.Count == 0)
-                    {
-                        return null;
-                    }
-
-                    Vector2 tile = target;
-                    while(checkedTiles[tile] != null){
-                        path.Add(tile);
-                        tile = (Vector2)checkedTiles[tile];
+                        done = true;
                         break;
                     }
+                }
+
+                if(!done && newTiles.Count == 0)
+                {
+                    return null;
+                }
+
+                Vector2 tile = origin;
+                while(checkedTiles[tile] != null){
+                    path.Add(tile);
+                    tile = (Vector2)checkedTiles[tile];
+                    break;
                 }
             }
         return path.ToArray();

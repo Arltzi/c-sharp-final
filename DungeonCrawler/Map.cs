@@ -9,7 +9,7 @@ namespace DungeonCrawler
     internal class Map
     {
         // Types used for loading
-        enum TileType 
+        enum TileType
         {
             EMPTY = 0,
             WALL = 1,
@@ -26,7 +26,7 @@ namespace DungeonCrawler
         private Tile[,] data;
 
         private string name = "No name";
-        
+
         public string Name
         {
             get { return name; }
@@ -61,7 +61,7 @@ namespace DungeonCrawler
 
                     for (int j = 0; j < mapHeight; j++)
                     {
-                        // Grabbing char 
+                        // Grabbing char
                         char currentChar = mapString[i + (j * mapWidth)];
                         // Getting integer value from char, casting it to ENUM
                         TileType currentType = (TileType)int.Parse(currentChar.ToString());

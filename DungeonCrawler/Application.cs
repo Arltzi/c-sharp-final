@@ -199,13 +199,13 @@ namespace DungeonCrawler
 
         private void Update()
         {
-            
+
             // Checks attack sto clean
             AttackAutoClear.staticRef.CheckAttacksToClean();
 
             if (context == AppContext.GAME) // Tick handling for game
             {
-
+                entityManager.EnemyUpdate();
                 if (inputMap == InputMap.PAUSE)
                 {
                     Pause();
@@ -277,7 +277,7 @@ namespace DungeonCrawler
             {
                 if (Console.KeyAvailable)
                 {
-                    
+
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
                     switch (keyInfo.Key)
