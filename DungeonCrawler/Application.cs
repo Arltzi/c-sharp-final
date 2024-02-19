@@ -26,7 +26,8 @@ enum MenuType
     MAIN = 0,
     ABOUT = 1,
     LVLCOMPLETE = 2,
-    MERCHANT = 3
+    MERCHANT = 3,
+    DEATH = 4
 }
 
 namespace DungeonCrawler
@@ -67,7 +68,7 @@ namespace DungeonCrawler
         // Currently selected menu class
         static private Menu m_currentMenu;
         // List of all menus in game
-        static private Menu[] MenuList = new Menu[4];
+        static private Menu[] MenuList = new Menu[5];
 
         private AppContext context = AppContext.MENU;
 
@@ -146,11 +147,20 @@ namespace DungeonCrawler
             Console.Clear();
         }
 
+        static public void ReplayLevel()
+        {
+            entityManager.entityList.Clear();
+            currentMap.Load(currentMap.Name);
+            player.Heal(player.MaxHealth);
+            UnPause();
+        }
+
         static public void GoNextLevel()
         {
             entityManager.entityList.Clear();
             levelNum++;
             currentMap.Load("map_" + levelNum);
+            player.Heal(player.MaxHealth);
             UnPause();
         }
 
@@ -161,6 +171,7 @@ namespace DungeonCrawler
             MenuList[1] = new AboutMenu();
             MenuList[2] = new LevelCompleteMenu();
             MenuList[3] = new MerchantMenu();
+            MenuList[4] = new DeathMenu();
 
             // Swapping to main menu for start of game
             SwapMenu(MenuType.MAIN);
@@ -209,6 +220,17 @@ namespace DungeonCrawler
             {
                 // entityManager.EnemyUpdate();
 
+                // Player invincibility frame tick
+                player.TickIFrame();
+
+                // Death check
+                if(player.Health <= 0)
+                {
+                    Pause();
+                    SwapMenu(MenuType.DEATH);
+
+                }
+
                 // LEVEL CLEAR CHECK
                 if(entityManager.entityList.Count == 0)
                 {
@@ -216,6 +238,14 @@ namespace DungeonCrawler
                     Pause();
                     SwapMenu(MenuType.LVLCOMPLETE);
                 }
+
+
+                // PLAYER TAKE DMG CHECK
+                if(player.IsNextToEnemy() == true)
+                {
+                    player.TakeDamage();
+                }
+
 
                 // PLAYER INPUT
                 if (inputMap == InputMap.PAUSE)
@@ -288,12 +318,12 @@ namespace DungeonCrawler
         // Input function handled on independant thread
         private void HandleInput()
         {
-            if (started) { return; }
+            //if (started) { return; }
 
-            while (true)
-            {
-                InputSystem.instance.GetKeyboardInput();
-            }
+            //while (true)
+            //{
+            //    InputSystem.instance.GetKeyboardInput();
+            //}
 
 
             while (true)
