@@ -289,12 +289,12 @@ namespace DungeonCrawler
         // Input function handled on independant thread
         private void HandleInput()
         {
-            if (started) { return; }
+            //if (started) { return; }
 
-            while (true)
-            {
-                InputSystem.instance.GetKeyboardInput();
-            }
+            //while (true)
+            //{
+                //InputSystem.instance.GetKeyboardInput();
+            //}
 
 
             while (true)
