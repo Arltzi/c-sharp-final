@@ -65,8 +65,16 @@ namespace DungeonCrawler
                     {
                         // Grabbing char
                         char currentChar = mapString[i + (j * mapWidth)];
+                        TileType currentType;
                         // Getting integer value from char, casting it to ENUM
-                        TileType currentType = (TileType)int.Parse(currentChar.ToString());
+                        try
+                        {
+                            currentType = (TileType)int.Parse(currentChar.ToString());
+                        }
+                        catch(Exception e) 
+                        {
+                            currentType = 0;
+                        }
                         // Creating new tile
                         Tile currentTile = new Tile();
 

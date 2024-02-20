@@ -43,7 +43,7 @@ namespace DungeonCrawler
 
         }
 
-        public void TakeDamage(int dmg = 1)
+        virtual public void TakeDamage()
         {
             health--;
             if(health < 0)
