@@ -237,6 +237,7 @@ namespace DungeonCrawler
                     // ALL ENEMIES DEAD
                     Pause();
                     SwapMenu(MenuType.LVLCOMPLETE);
+                    Thread.Sleep(100);
                 }
 
 
