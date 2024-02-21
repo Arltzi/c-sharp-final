@@ -38,7 +38,6 @@ namespace DungeonCrawler
             {
                 health = maxHealth;
             }
-
         }
 
         public override void TakeDamage()

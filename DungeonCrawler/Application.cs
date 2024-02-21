@@ -26,8 +26,8 @@ enum MenuType
     MAIN = 0,
     ABOUT = 1,
     LVLCOMPLETE = 2,
-    MERCHANT = 3,
-    DEATH = 4
+    DEATH = 3,
+    WIN = 4
 }
 
 namespace DungeonCrawler
@@ -109,6 +109,7 @@ namespace DungeonCrawler
         static public void Pause()
         {
             Console.Clear();
+            SwapMenu(MenuType.MAIN);
             m_Paused = true;
             m_TickTime = 200;
         }
@@ -158,10 +159,19 @@ namespace DungeonCrawler
         static public void GoNextLevel()
         {
             entityManager.entityList.Clear();
-            levelNum++;
-            currentMap.Load("map_" + levelNum);
-            player.Heal(player.MaxHealth);
-            UnPause();
+
+            if(levelNum < 3)
+            {
+                levelNum++;
+                currentMap.Load("map_" + levelNum);
+                player.Heal(player.MaxHealth);
+                UnPause();
+            }
+            else
+            {
+                Pause();
+                SwapMenu(MenuType.WIN);
+            }
         }
 
         private bool Init()
@@ -170,8 +180,8 @@ namespace DungeonCrawler
             MenuList[0] = new MainMenu();
             MenuList[1] = new AboutMenu();
             MenuList[2] = new LevelCompleteMenu();
-            MenuList[3] = new MerchantMenu();
-            MenuList[4] = new DeathMenu();
+            MenuList[3] = new DeathMenu();
+            MenuList[4] = new WinMenu();
 
             // Swapping to main menu for start of game
             SwapMenu(MenuType.MAIN);
@@ -238,6 +248,7 @@ namespace DungeonCrawler
                     Pause();
                     SwapMenu(MenuType.LVLCOMPLETE);
                     Thread.Sleep(100);
+
                 }
 
 
