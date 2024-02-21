@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.Intrinsics;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
+using System.Reflection;
+
 
 namespace DungeonCrawler
 {
@@ -15,19 +8,9 @@ namespace DungeonCrawler
     {
         // DECLARATIONS
         public List<Entity> entityList = new List<Entity>();
-        Dictionary<int, ProcessState> transitions;
-        const int PATHFINDING_FRAME_FREQUENCY = 3;
-
-        public EntityManager()
-        {
-            transitions = new Dictionary<int, ProcessState>
-            {
-                {0, ProcessState.Chase },
-                {1, ProcessState.Attack },
-                {2, ProcessState.Hesitate },
-                {3, ProcessState.Attack }
-            };
-        }
+        const int PATHFINDING_FRAME_FREQUENCY = 9;
+        const int CHASE_FRAME_FREQUENCY = 3;
+        const int HESITATE_FRAME_TIME = 10;
 
         public Enemy CreateEnemy()
         {
@@ -41,62 +24,12 @@ namespace DungeonCrawler
         {
             Inactive,
             Hesitate,
-            Attack,
             Chase
         }
 
-        internal enum Command
-        {
-            SeePlayer,
-            NearPlayerUnderwhelmed,
-            NearPlayerOverwhelmed
-        }
-
-        class StateTransition
-        {
-            public int id;
-            public ProcessState CurrentState { get; private set; }
-            public Command Command  { get; private set; }
-
-            public override int GetHashCode()
-            {
-                return id;
-            }
-
-            public StateTransition(int newId)
-            {
-                id = newId;
-                switch(id)
-                {
-                    case 0:
-                    CurrentState = ProcessState.Inactive;
-                    Command = Command.SeePlayer;
-                    break;
-                    case 1:
-                    CurrentState = ProcessState.Chase;
-                    Command = Command.NearPlayerOverwhelmed;
-                    break;
-                    case 2:
-                    CurrentState = ProcessState.Chase;
-                    Command = Command.NearPlayerUnderwhelmed;
-                    break;
-                    case 3:
-                    CurrentState = ProcessState.Hesitate;
-                    Command = Command.NearPlayerOverwhelmed;
-                    break;
-                }
-            }
-        }
-        public ProcessState ChangeState(int stateID)
-        {
-            ProcessState nextState;
-            nextState = transitions[stateID];
-            return nextState;
-        }
-        public ProcessState CurrentState { get; set; }
-
         // iterate over entitylist, update state for each
-        int frameCounter = PATHFINDING_FRAME_FREQUENCY;
+        int chaseFrameCounter = CHASE_FRAME_FREQUENCY;
+        int hesitationFrameCounter = 0;
         public void EnemyUpdate()
         {
             foreach (Enemy enemy in entityList)
@@ -104,43 +37,61 @@ namespace DungeonCrawler
                 switch (enemy.CurrentState)
                 {
                     case ProcessState.Inactive:
-                    if(Pathfinding.SightLineExists(new Vector2(enemy.x, enemy.y), new Vector2(Application.player.x, Application.player.y)))
-                    {
-                        enemy.CurrentState = ChangeState(0);
-                        enemy.pathToPlayer = Pathfinding.GetPath(new Vector2(enemy.x, enemy.y), new Vector2(Application.player.x, Application.player.y));
-                    }
-                    break;
+                        if(Pathfinding.SightLineExists(new Vector2(enemy.x, enemy.y), new Vector2(Application.player.x, Application.player.y)))
+                        {
+                            enemy.CurrentState = ProcessState.Chase;
+                            enemy.pathToPlayer = Pathfinding.GetPath(new Vector2(enemy.x, enemy.y), new Vector2(Application.player.x, Application.player.y));
+                        }
+                        break;
 
                     case ProcessState.Chase:
-                        // frameCounter++;
-                        // if(frameCounter == PATHFINDING_FRAME_FREQUENCY)
-                        // {
-                        //     frameCounter = 0;
-                        // }
                         enemy.pathToPlayer = Pathfinding.GetPath(new Vector2(enemy.x, enemy.y), new Vector2(Application.player.x, Application.player.y));
-                        switch(Vector2.Subtract(enemy.pathToPlayer.Last() , new Vector2(enemy.x, enemy.y)))
+
+                        if(Pathfinding.Distance(new Vector2(enemy.x, enemy.y), new Vector2(Application.player.x, Application.player.y)) == 1)
                         {
-                            case Vector2 diff when diff.Equals(new Vector2(0, -1)): // enemy goes down
-                            enemy.Move(Direction.DOWN);
-                            break;
-                            case Vector2 diff when diff.Equals(new Vector2(0, 1)): // enemy goes up
-                            enemy.Move(Direction.UP);
-                            break;
-                            case Vector2 diff when diff.Equals(new Vector2(-1, 0)): // enemy goes left
-                            enemy.Move(Direction.LEFT);
-                            break;
-                            case Vector2 diff when diff.Equals(new Vector2(1, 0)): // enemy goes right
-                            enemy.Move(Direction.RIGHT);
-                            break;
+                            // Application.player.TakeDamage();
+                            enemy.CurrentState = ProcessState.Hesitate;
                         }
-                    break;
 
-                    case ProcessState.Attack:
+                        if(chaseFrameCounter == CHASE_FRAME_FREQUENCY)
+                        {
+                            bool successMove = false;
+                            switch(Vector2.Subtract(enemy.pathToPlayer.Last() , new Vector2(enemy.x, enemy.y)))
+                            {
+                                case Vector2 diff when diff.Equals(new Vector2(0, 1)): // enemy goes down
+                                successMove = enemy.Move(Direction.DOWN);
+                                break;
+                                case Vector2 diff when diff.Equals(new Vector2(0, -1)): // enemy goes up
+                                successMove = enemy.Move(Direction.UP);
+                                break;
+                                case Vector2 diff when diff.Equals(new Vector2(-1, 0)): // enemy goes left
+                                successMove = enemy.Move(Direction.LEFT);
+                                break;
+                                case Vector2 diff when diff.Equals(new Vector2(1, 0)): // enemy goes right
+                                successMove = enemy.Move(Direction.RIGHT);
+                                break;
+                            }
 
-                    break;
+                            if(successMove)
+                            {
+                                enemy.pathToPlayer.RemoveAt(enemy.pathToPlayer.Count - 1);
+                            }
+                            chaseFrameCounter = 0;
+                        }
+                        chaseFrameCounter++;
+
+                        break;
+
+                    case ProcessState.Hesitate:
+                        if(hesitationFrameCounter == HESITATE_FRAME_TIME)
+                        {
+                            enemy.CurrentState = ProcessState.Chase;
+                            hesitationFrameCounter = 0;
+                        }
+                        hesitationFrameCounter++;
+                        break;
                 }
             }
-
         }
     }
 }

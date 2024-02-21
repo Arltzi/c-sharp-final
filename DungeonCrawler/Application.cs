@@ -228,7 +228,7 @@ namespace DungeonCrawler
 
             if (context == AppContext.GAME) // Tick handling for game
             {
-                // entityManager.EnemyUpdate();
+                entityManager.EnemyUpdate();
 
                 // Player invincibility frame tick
                 player.TickIFrame();

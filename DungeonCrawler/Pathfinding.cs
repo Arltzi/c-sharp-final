@@ -34,13 +34,13 @@ namespace DungeonCrawler
         public static bool SightLineExists(Vector2 origin, Vector2 target)
         {
             int distance = Distance(origin, target);
-            for (int i = 0; i <= distance + 1; i++)
+            for (int i = 0; i <= distance; i++)
             {
                 Vector2 tileCoord = TileRound(new Vector2(
                     FloatLerp(origin.X, target.X, (float)1.0/distance * i),
                     FloatLerp(origin.Y, target.Y, (float)1.0/distance * i)));
                 // what a fucking line
-                //Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].effectColour = ConsoleColor.Magenta;
+                // Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].effectColour = ConsoleColor.Magenta;
                 if(Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].Occupant != null)
                 {
                     if(Application.CurrentMap.Data[(int)tileCoord.X, (int)tileCoord.Y].Occupant.GetType() == typeof(Wall))
@@ -83,7 +83,7 @@ namespace DungeonCrawler
             return neighbours;
         }
 
-        public static Vector2[]? GetPath(Vector2 origin, Vector2 target)
+        public static List<Vector2> GetPath(Vector2 origin, Vector2 target)
         {
             bool done = false;
 
@@ -120,17 +120,17 @@ namespace DungeonCrawler
 
                 if(!done && newTiles.Count == 0)
                 {
-                    return null;
-                }
-
-                Vector2 tile = origin;
-                while(checkedTiles[tile] != null){
-                    path.Add(tile);
-                    tile = (Vector2)checkedTiles[tile];
-                    break;
+                    return new List<Vector2>(0);
                 }
             }
-        return path.ToArray();
+
+            Vector2 tile = checkedTiles.Last().Key;
+            while(checkedTiles[tile] != null){
+                path.Add(tile);
+                // Application.CurrentMap.Data[(int)tile.X, (int)tile.Y].effectColour = ConsoleColor.Magenta;
+                tile = (Vector2)checkedTiles[tile];
+            }
+            return path;
         }
     }
 }
