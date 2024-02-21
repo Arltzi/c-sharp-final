@@ -11,7 +11,7 @@ namespace DungeonCrawler
     {
         private int maxHealth = 10;
 
-        public int MaxHealth { 
+        public int MaxHealth {
             get { return maxHealth; }
             private set { maxHealth = value; }
         }
@@ -25,13 +25,10 @@ namespace DungeonCrawler
             health = MaxHealth;
         }
 
-        public override void Die() { 
-        
+        public override void Die() {
+
 
         }
 
     }
-
-    
 }
-

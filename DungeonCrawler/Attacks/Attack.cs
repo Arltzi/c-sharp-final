@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- Alex Gulewich 
+ Alex Gulewich
  Feb, 12, 2024
  Attack
  The attack base class to be inherited later on
@@ -27,13 +27,13 @@ namespace DungeonCrawler.Attacks
         protected Pawn parent;
 
         // The constructors
-        public Attack(Pawn newParent) 
+        public Attack(Pawn newParent)
         {
             parent = newParent;
             mColor = ConsoleColor.DarkRed;
         }
 
-        public Attack(Pawn newParent, ConsoleColor myColor) 
+        public Attack(Pawn newParent, ConsoleColor myColor)
         {
             parent = newParent;
             mColor = myColor;
@@ -78,7 +78,7 @@ namespace DungeonCrawler.Attacks
                 if (affectedtilesNeedClearing)
                 {
                     // Cleans up the tiles on map
-                    for (int x = 0; x < mAffectedTiles.GetLength(0); x++) 
+                    for (int x = 0; x < mAffectedTiles.GetLength(0); x++)
                     {
                         // ensures we do not go out of bounds of map array
                         if (Application.CurrentMap.Data.GetLength(0) - 1 < x || x < 0 )
@@ -102,4 +102,3 @@ namespace DungeonCrawler.Attacks
         }
     }
 }
-

@@ -10,7 +10,7 @@ namespace DungeonCrawler
 {
     internal class Enemy : Pawn
     {
-        public Vector2[]? pathToPlayer;
+        public List<Vector2> pathToPlayer;
         public EntityManager.ProcessState CurrentState;
         public Enemy()
         {

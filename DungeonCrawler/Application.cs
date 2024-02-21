@@ -207,7 +207,7 @@ namespace DungeonCrawler
 
             if (context == AppContext.GAME) // Tick handling for game
             {
-                // entityManager.EnemyUpdate();
+                entityManager.EnemyUpdate();
 
                 // LEVEL CLEAR CHECK
                 if(entityManager.entityList.Count == 0)
@@ -228,10 +228,8 @@ namespace DungeonCrawler
                 }
                 else if(inputMap == InputMap.DEVBTN)
                 {
-
                     Enemy e = (Enemy)entityManager.entityList[0];
                     e.Die();
-
                 }
                 else if(inputMap == InputMap.ATTACK)
                 {

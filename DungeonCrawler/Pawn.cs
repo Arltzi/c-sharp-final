@@ -22,9 +22,9 @@ namespace DungeonCrawler
             private set { health = value; }
         }
 
-        protected Direction direction;
+        protected Direction direction = Direction.UP;
 
-        public Direction Dir { 
+        public Direction Dir {
             get { return direction; }
             private set { direction = value; }
         }
@@ -34,19 +34,17 @@ namespace DungeonCrawler
         {
             health = 10;
             attack = new Stab(this);
-
         }
 
         public virtual void Die()
         {
-
 
         }
 
         public void TakeDamage(int dmg = 1)
         {
             health--;
-            if(health < 0)
+            if(health <= 0)
             {
                 Die();
             }
@@ -130,7 +128,7 @@ namespace DungeonCrawler
         {
             int oldX = x;
             int oldY = y;
-
+            this.direction = direction;
             switch (direction)
             {
                 case Direction.UP:
@@ -210,7 +208,7 @@ namespace DungeonCrawler
                         return false;
                     else if (Application.CurrentMap.Data[x, y + 1].Occupant != null) // Wall tile collision check
                         return false;
-                    break;  
+                    break;
                 case Direction.RIGHT:
                     if ((x + 1) == Application.mapX) // Right bounds check
                         return false;
@@ -226,11 +224,13 @@ namespace DungeonCrawler
 
             }
 
+            // if(direction == Direction.NONE)
+            // {
+            //     return false;
+            // }
 
             return true;
 
         }
-
-
     }
 }

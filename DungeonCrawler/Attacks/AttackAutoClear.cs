@@ -22,14 +22,14 @@ namespace DungeonCrawler.Attacks
         // Adds new item to list
         public Attack attack
         {
-            set 
+            set
             {
                 // makes sure we're not duplicating into the list
-                if (triggeredAttacks.Contains(value)) 
+                if (triggeredAttacks.Contains(value))
                 {
                     return;
                 }
-                triggeredAttacks.Add(value); 
+                triggeredAttacks.Add(value);
             }
         }
 
@@ -49,10 +49,10 @@ namespace DungeonCrawler.Attacks
         }
 
         // Checks thorugh all activated attacks to see if they should be cleared
-        public void CheckAttacksToClean () 
+        public void CheckAttacksToClean ()
         {
             // Checks to see if there is anything to clean
-            if (triggeredAttacks.Count == 0) 
+            if (triggeredAttacks.Count == 0)
             {
                 return;
             }
@@ -60,10 +60,10 @@ namespace DungeonCrawler.Attacks
 
 
             // Checks everything if they should be clears and clears it if it should
-            for (int x = 0; x < triggeredAttacks.Count; x++) 
+            for (int x = 0; x < triggeredAttacks.Count; x++)
             {
                 // chjecks if the tile should be claered and pops from the list if it was
-                if ( triggeredAttacks[x].CheckIfClearAffectedTiles() ) 
+                if ( triggeredAttacks[x].CheckIfClearAffectedTiles() )
                 {
                     triggeredAttacks.RemoveAt(x);
                 }
