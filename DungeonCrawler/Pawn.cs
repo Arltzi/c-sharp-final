@@ -33,7 +33,7 @@ namespace DungeonCrawler
         public Pawn()
         {
             health = 10;
-            attack = new Stab(this);
+            attack = new Slash(this);
 
         }
 
@@ -43,7 +43,7 @@ namespace DungeonCrawler
 
         }
 
-        public void TakeDamage(int dmg = 1)
+        virtual public void TakeDamage()
         {
             health--;
             if(health < 0)

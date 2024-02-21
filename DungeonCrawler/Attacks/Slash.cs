@@ -66,10 +66,9 @@ namespace DungeonCrawler.Attacks
 
             // Draws the attack
             DrawLine(x, y, verticleDir, horizontalDir, 3, 0);
-            DrawLine(x + (horizontalDir * 2), y + (verticleDir * 2), verticleDir, horizontalDir, 2, 1);
-            DrawLine(x  + -(horizontalDir * 2), y + -(verticleDir * 2), verticleDir, horizontalDir, 2, 2);
+            DrawLine(x + (horizontalDir * 1), y + (verticleDir * 1), verticleDir, horizontalDir, 2, 1);
+            DrawLine(x  + -(horizontalDir * 1), y + -(verticleDir * 1), verticleDir, horizontalDir, 2, 2);
             
-
             
         }
 

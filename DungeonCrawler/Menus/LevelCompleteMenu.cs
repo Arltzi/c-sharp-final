@@ -10,9 +10,9 @@ namespace DungeonCrawler
     {
         public LevelCompleteMenu()
         {
-            text = "Congratulations! You have completed the level.";
+            text = "Congratulations! You have completed the level.\n";
 
-            buttons = new string[] { "Continue", "Merchant", "Exit" };
+            buttons = new string[] { "Continue", "Exit" };
             selectedButton = 1;
         }
         override public void PressButton()
@@ -23,10 +23,6 @@ namespace DungeonCrawler
                     Application.GoNextLevel();
                     break;
                 case 2:
-                    Application.SwapMenu(MenuType.MERCHANT);
-                    Console.Clear();
-                    break;
-                case 3:
                     Application.CloseApp();
                     break;
 

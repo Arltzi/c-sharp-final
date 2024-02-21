@@ -209,8 +209,6 @@ namespace DungeonCrawler.Rendering
                     //This line of code slows execution down by like 100%
                     Console.BackgroundColor = currentTile.effectColour;
 
-
-
                     if (currentTile.Occupant == null)
                     {
                         Console.Write(' ');
