@@ -54,9 +54,9 @@ namespace DungeonCrawler
                 // Reading in file
                 string fileContent = File.ReadAllText(path);
                 // Stripping newlines
-                //string mapString = fileContent.Replace(Environment.NewLine, "");
-                string mapString = fileContent;
-                mapString = mapString.Replace("\n", "");
+                string firstMapString = fileContent.Replace(Environment.NewLine, "");
+                // string mapString = fileContent;
+                string mapString = firstMapString.Replace("\n", "");
 
                 for (int i = 0; i < mapWidth; i++)
                 {
@@ -71,7 +71,7 @@ namespace DungeonCrawler
                         {
                             currentType = (TileType)int.Parse(currentChar.ToString());
                         }
-                        catch(Exception e) 
+                        catch(Exception e)
                         {
                             currentType = 0;
                         }
