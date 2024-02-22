@@ -5,3 +5,6 @@ set "destinationFolder=%~dp0\bin\Debug\net6.0"
 
 xcopy "%sourceFolder%\*" "%destinationFolder%\" /s /i /y
 
+set "destinationFolder=%~dp0\bin\Release\net6.0"
+
+xcopy "%sourceFolder%\*" "%destinationFolder%\" /s /i /y
