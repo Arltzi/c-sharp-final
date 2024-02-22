@@ -9,7 +9,6 @@ using DungeonCrawler.Rendering;
 
 enum InputMap
 {
-
     NONE = 0,
     UP = 1,
     DOWN = 2,
@@ -17,7 +16,7 @@ enum InputMap
     LEFT = 4,
     ATTACK = 5,
     PAUSE = 6,
-    DEVBTN = 7,
+
 }
 
 // Enum for different menus
@@ -268,13 +267,6 @@ namespace DungeonCrawler
                 {
                     player.Move(inputMap);
                 }
-                else if(inputMap == InputMap.DEVBTN)
-                {
-
-                    Enemy e = (Enemy)entityManager.entityList[0];
-                    e.Die();
-
-                }
                 else if(inputMap == InputMap.ATTACK)
                 {
 
@@ -364,9 +356,6 @@ namespace DungeonCrawler
                             break;
                         case ConsoleKey.Escape:
                             inputMap = InputMap.PAUSE;
-                            break;
-                        case ConsoleKey.E:
-                            inputMap = InputMap.DEVBTN;
                             break;
                         case ConsoleKey.X:
                             m_isRunning = false;
