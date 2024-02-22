@@ -248,6 +248,13 @@ namespace DungeonCrawler.Rendering
                 Console.Write('▓');
             }
 
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\n\nObjective: KILL ALL ENEMIES\n");
+            Console.WriteLine("\n---CONTROLS---");
+            Console.WriteLine("Move: WASD");
+            Console.WriteLine("Attack: Enter");
+
             if (Application.DEBUG)
             {
                 Console.ForegroundColor = ConsoleColor.White;

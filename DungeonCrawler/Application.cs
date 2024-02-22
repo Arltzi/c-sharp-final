@@ -74,7 +74,7 @@ namespace DungeonCrawler
 
         static private int levelNum = 0;
 
-        static public bool DEBUG = true;
+        static public bool DEBUG = false;
 
 
         public static int TickTime

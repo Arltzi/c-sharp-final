@@ -63,7 +63,7 @@ namespace DungeonCrawler
                 for(int j = 0; j < 3; j++)
                 {
                     // Checking within map bounds
-                    if(y + j <= Map.mapHeight && x + i <= Map.mapWidth)
+                    if(y + j <= Map.mapHeight && x + i <= Map.mapWidth && y - 1 + j >= 0 && x - 1 + i >= 0)
                     {
                         if(Application.CurrentMap.Data[(x - 1) + i, (y - 1) + j].Occupant != null)
                         {
